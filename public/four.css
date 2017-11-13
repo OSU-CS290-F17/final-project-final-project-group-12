@@ -14,7 +14,8 @@ h1 {
 	background-color: black;
 	color: white;
 	height: 50px;
-
+	font-family: "verdana";
+	padding-left: 5%;
 }
 
 .title-container {
@@ -43,5 +44,29 @@ h1 {
 	margin: 0;
 }
 
+#board {
+	display: inline;
+	width: 70%;
+	float: left;
+	padding: 5px;
+
+}
+
+.board-container {
+	border-radius: 15px;
+	height: 650px;
+	background-color: lightgrey;
 
 
+}
+
+.player {
+	display: inline;
+	margin: 1%;
+	border-radius: 10px;
+	border-style: solid;
+	border-color: black;
+	padding: 5px;
+	width: 10%;
+	float: left;
+}
