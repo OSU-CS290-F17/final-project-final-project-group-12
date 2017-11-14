@@ -44,21 +44,48 @@ h1 {
 	margin: 0;
 }
 
-#board {
+#board-container {
 	display: inline;
 	width: 70%;
 	float: left;
 	padding: 5px;
+	height: 1000px;
 
 }
 
-.board-container {
+#board {
+	clear: both;
 	border-radius: 15px;
 	height: 650px;
 	background-color: lightgrey;
 
 
 }
+
+#button-array {
+	padding-bottom: 13.25%;
+}
+
+.chip-button {
+	display: inline;
+	float: left;
+	width: 13.25%;
+	height: auto;
+	margin: .5%;
+	border-style: none;
+	background-color: green;
+}
+
+.board-column {
+	display: inline;
+	float: left;
+	width: 13.25%;
+	margin: .5%;
+	background-color: lightyellow;
+	height: 98%;
+}
+
+
 
 .player {
 	display: inline;
