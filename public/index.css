@@ -27,19 +27,14 @@ h3 {
   float: left;
   padding: 100px;
 }
-#connect{
-	margin: 10px 20px 10px 20px;
-	padding: 10px 50px 10px 50px;
+.buttons{
+	font-family: verdana;
+	font-size: 200%;
+	padding: 10px 40px 10px 40px;
 	background-color: yellow;
-	align-items: center;
+	font-weight: bolder;
 	border-radius: 10px;
-}
-a{
-	color: black;
-	text-decoration: none;
-}
-.connectFour{
-
+	margin: 10px 20px 10px 30px;
 }
 
 .topScores{
