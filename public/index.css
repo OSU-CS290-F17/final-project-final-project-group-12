@@ -14,12 +14,33 @@ h1 {
 	font-family: "verdana";
 	padding-left: 5%;
 }
+h3 {
+	font-family: "verdana";
+	font-size: 200%;
+}
 
+.box{
+	display: flex;
+}
 .games{
   width: 400px;
   float: left;
   padding: 100px;
 }
+#connect{
+	padding: 10px 50px 10px 50px;
+	background-color: yellow;
+	align-items: center;
+	border-radius: 10px;
+}
+a{
+	color: black;
+	text-decoration: none;
+}
+.connectFour{
+
+}
+
 .topScores{
   width: 400px;
   float: right;
