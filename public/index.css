@@ -28,6 +28,7 @@ h3 {
   padding: 100px;
 }
 #connect{
+	margin: 10px 20px 10px 20px;
 	padding: 10px 50px 10px 50px;
 	background-color: yellow;
 	align-items: center;
