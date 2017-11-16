@@ -10,7 +10,7 @@ body{
 
 h1 {
 	margin: 0;
-	width: 100%;
+	width: 95%;
 	background-color: black;
 	color: white;
 	height: 50px;
@@ -46,41 +46,37 @@ h1 {
 
 #board-container {
 	display: inline;
-	width: 70%;
+	width: 80vmin;
+	max-width: 55%;
 	float: left;
-	padding: 5px;
-	height: 1000px;
-
+	padding: .5%;
 }
 
 #board {
 	clear: both;
 	border-radius: 15px;
-	height: 650px;
+	padding-bottom: 85.7%;
 	background-color: lightgrey;
-
-
 }
 
-#button-array{
-	padding-bottom: 13.25%;
-
-}
 .chip-button {
-	position: relative;
-	top: 0;
-	bottom: 0;
-	left: 0;
-	right: 0;
 	display: inline;
 	float: left;
 	width: 8%;
-	height: auto;
-	margin: 3.14%;
+	margin-right: 3.14%;
+	margin-left: 3.14%;
+	margin-bottom: 1%;
 	border-style: none;
 	border-radius: 50%;
-	height: 100%;
+	padding-top: 1.5%;
+	padding-bottom: 2%;
+	background-color: lightgreen;
+	font-size:  2vmin;
+}
+
+.chip-button:hover {
 	background-color: green;
+	font-weight: bold;
 }
 
 .board-column {
@@ -89,7 +85,7 @@ h1 {
 	width: 13.25%;
 	margin: .5%;
 	background-color: lightyellow;
-	height: 98%;
+	padding-bottom: 84.5%;
 }
 
 
@@ -98,9 +94,12 @@ h1 {
 	display: inline;
 	margin: .5%;
 	border-radius: 10px;
+	border-width: .25vw;
 	border-style: solid;
 	border-color: black;
-	padding: 5px;
-	width: 10%;
+	padding: .4%;
+	max-width: 19%;
+	min-width: 10%;
+	width: 19%;
 	float: left;
 }
