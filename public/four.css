@@ -55,7 +55,7 @@ h1 {
 #board {
 	clear: both;
 	border-radius: 15px;
-	padding-bottom: 85.7%;
+	padding-bottom: 74%;
 	background-color: lightgrey;
 }
 
@@ -64,6 +64,11 @@ h1 {
 	float: left;
 	padding-bottom: 50vh;
 	padding-right: calc(27vw - 40vh);
+}
+
+.darrow{
+	float: left;
+	width: 100%;
 }
 
 .chip-button {
@@ -78,7 +83,6 @@ h1 {
 	padding-top: 1.5%;
 	padding-bottom: 2%;
 	background-color: lightgreen;
-	font-size:  2vmin;
 }
 
 .chip-button:hover {
@@ -90,13 +94,23 @@ h1 {
 	outline: 0;
 }
 
+.chip-slot {
+	display: block;
+	border-radius: 50%;
+	border-style: none;
+	padding-bottom: 80%;
+	margin: 10%;
+	background-color: lightblue;
+}
+
 .board-column {
+	border-radius: 10px;
 	display: inline;
 	float: left;
 	width: 13.25%;
 	margin: .5%;
 	background-color: lightyellow;
-	padding-bottom: 84.5%;
+	padding-bottom: 0;
 }
 
 .player {
