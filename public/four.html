@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<h1>The Deep Web</h1>
+<h1>Connect Four: The Online Game</h1>
 
 <div class = "title-container">
 	<img src = "miniconnect.png" class = "game-clip">
@@ -17,13 +17,14 @@
 
 
 <div id = "content">
-
-	<div class = "player" id = "player-one">
-		<div class = "username">Name: Anonymous</div>
-		<div class = "connect-status">Status: Connected</div>
-		<div class = "score">Score: 0</div>
-	</div>	
-
+	<div class = "content-column" id = "left-column">
+		<div class = "player" id = "player-one">
+			<div class = "username">Name: Anonymous</div>
+			<div class = "connect-status">Status: Connected</div>
+			<div class = "score">Score: 0</div>
+		</div>	
+		<div id = "turn-marker">Your turn!</div>
+	</div>
 	<div class = "spacer-div">
 	</div>
 	<div id = "board-container">
@@ -98,10 +99,12 @@
 
 	<div class = "spacer-div">
 	</div>
-	<div class = "player" id = "player-two">
-		<div class = "username">Name: Anonymous</div>
-		<div class = "connect-status">Status: Connected</div>
-		<div class = "score">Score: 0</div>
+	<div class = "content-column" id = "right-column">
+		<div class = "player" id = "player-two">
+			<div class = "username">Name: Anonymous</div>
+			<div class = "connect-status">Status: Connected</div>
+			<div class = "score">Score: 0</div>
+		</div>
 	</div>
 
 </div>
