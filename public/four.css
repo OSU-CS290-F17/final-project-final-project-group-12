@@ -87,6 +87,10 @@ h1 {
 	font-weight: bold;
 }
 
+.chip-button:focus {
+	outline: 0;
+}
+
 .board-column {
 	display: inline;
 	float: left;
