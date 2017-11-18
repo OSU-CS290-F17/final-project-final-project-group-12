@@ -62,9 +62,8 @@ h1 {
 .spacer-div {
 	display: inline;
 	float: left;
-	padding-bottom: 80%;
-	padding-right: 5vw - 5vmin;
-	background-color: blue;
+	padding-bottom: 50vh;
+	padding-right: calc(27vw - 40vh);
 }
 
 .chip-button {
