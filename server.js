@@ -10,8 +10,11 @@ server.get('/', function(req, res, next) {
 });
 
 server.get('/four', function(req, res, next) {
-    res.status(200).send('four.html');
+    res.status(200).render('four.handlebars');
 })
+
+server.use(express.static('public'));
+
 server.get('*', function(req, res, next) {
     res.status(404).send('404');
 });
@@ -19,4 +22,6 @@ server.get('*', function(req, res, next) {
 server.listen(3000, function() {
     console.log('server listening on port 3000');
 });
+
+//todo send css and js files.
 
