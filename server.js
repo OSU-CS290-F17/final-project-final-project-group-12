@@ -1,8 +1,12 @@
 var express = require('express');
 var server = express();
+var handlebars = require('express-handlebars');
+
+server.engine('handlebars', handlebars({ defaultLayout: 'main' }));
+server.set('view engine', 'handlebars');
 
 server.get('/', function(req, res, next) {
-    res.status(200).send('test test 123');
+    res.status(200).render('index.handlebars');
 });
 
 server.get('/four', function(req, res, next) {
@@ -16,4 +20,3 @@ server.listen(3000, function() {
     console.log('server listening on port 3000');
 });
 
-console.log('test');
