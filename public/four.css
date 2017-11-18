@@ -59,6 +59,14 @@ h1 {
 	background-color: lightgrey;
 }
 
+.spacer-div {
+	display: inline;
+	float: left;
+	padding-bottom: 80%;
+	padding-right: 5vw - 5vmin;
+	background-color: blue;
+}
+
 .chip-button {
 	display: inline;
 	float: left;
@@ -87,8 +95,6 @@ h1 {
 	background-color: lightyellow;
 	padding-bottom: 84.5%;
 }
-
-
 
 .player {
 	display: inline;
