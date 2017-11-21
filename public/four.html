@@ -24,8 +24,8 @@
 			<div class = "score">Score: 0</div>
 		</div>	
 		<div id = "turn-marker">Your turn!</div>
-		<button id = "forfeit-button">Forfeit</button>
-		<button id = "draw-button">Request a draw</button>
+		<button class = "button-option" id = "forfeit-button">Forfeit</button>
+		<button class = "button-option" id = "draw-button">Request a draw</button>
 	</div>
 	<div class = "spacer-div">
 	</div>
@@ -106,6 +106,15 @@
 			<div class = "username">Name: Anonymous</div>
 			<div class = "connect-status">Status: Connected</div>
 			<div class = "score">Score: 0</div>
+		</div>
+
+		<div id="wrapper">
+    			<div id="chatbox"></div>
+     
+    			<form name="message" action="">
+        			<input name="usermsg" type="text" id="usermsg" size="63" />
+        			<input name="submitmsg" type="submit"  id="submitmsg" value="Send" />
+    			</form>
 		</div>
 	</div>
 
