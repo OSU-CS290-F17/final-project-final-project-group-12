@@ -1,13 +1,13 @@
 function checkInput() {
 	var text = "";
-	if (!document.getElementById("playerId")) {
+	if (!document.getElementById("playerId").value) {
 		text = "Missing player name";
 	}
-	if (!document.getElementById("roomId")) {
+	if (!document.getElementById("roomId").value) {
 		text += "\nMissing room number";
 	}
 	if (!text)
-		document.getElementById("settings").submit();
+		document.getElementById("form").submit();
 	else
-		window.alert(text);
+	 	window.alert(text);
 }
