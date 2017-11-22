@@ -86,7 +86,8 @@ h1 {
 .button-option{
 	width: 40%;
 	margin: 5%;
-	margin-left: 30%;
+	float: left;
+	font-size: .9vw;
 }
 
 #turn-marker {
