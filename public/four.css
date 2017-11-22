@@ -5,6 +5,7 @@ html{
 
 body{
 	margin: 0;
+	font-family: georgia;
 }
 
 
@@ -44,6 +45,63 @@ h1 {
 	margin: 0;
 }
 
+
+#wrapper {
+	clear:both;
+	float: left;
+	display: block;
+	background-color: lightgrey;
+	border-width: .2vw;
+	border-style: solid;
+	border-color: black;
+	width: 92%;
+	padding: 3%;
+	margin: 3%;
+	margin-top: 20vh;
+}
+
+#chatbox {
+	width: 95%;
+	margin: auto;
+	background-color: white;
+	border-width: .1vw;
+	border-style: solid;
+	border-color: lightblue;
+	height: 30vh;
+
+}
+
+#usermsg{
+	width: 75%;
+	margin: 2%;
+}
+
+#submitmsg{
+	width: 15%;
+	font-size: .6vw;
+	padding: .5%;
+}
+
+
+.button-option{
+	width: 40%;
+	margin: 5%;
+	margin-left: 30%;
+}
+
+#turn-marker {
+	float: left;
+	display: inline;
+	background-color: green;
+	border-radius: 25px;
+	width: 90%;
+	margin: 5%;
+	padding-top: 10%;
+	padding-bottom: 10%;
+	text-align: center;
+	font-size: 3vw;
+}
+
 #board-container {
 	display: inline;
 	width: 80vmin;
@@ -55,16 +113,21 @@ h1 {
 #board {
 	clear: both;
 	border-radius: 15px;
-	padding-bottom: 85.7%;
+	padding-bottom: 74%;
 	background-color: lightgrey;
 }
 
 .spacer-div {
 	display: inline;
 	float: left;
-	padding-bottom: 80%;
-	padding-right: 5vw - 5vmin;
-	background-color: blue;
+	padding-bottom: 50vh;
+	padding-right: calc(27vw - 40vh);
+	background-color: cyan;
+}
+
+.darrow{
+	float: left;
+	width: 100%;
 }
 
 .chip-button {
@@ -79,7 +142,6 @@ h1 {
 	padding-top: 1.5%;
 	padding-bottom: 2%;
 	background-color: lightgreen;
-	font-size:  2vmin;
 }
 
 .chip-button:hover {
@@ -91,25 +153,39 @@ h1 {
 	outline: 0;
 }
 
+.chip-slot {
+	display: block;
+	border-radius: 50%;
+	border-style: none;
+	padding-bottom: 80%;
+	margin: 10%;
+	background-color: lightblue;
+}
+
 .board-column {
+	border-radius: 10px;
 	display: inline;
 	float: left;
 	width: 13.25%;
 	margin: .5%;
 	background-color: lightyellow;
-	padding-bottom: 84.5%;
+	padding-bottom: 0;
 }
 
 .player {
-	display: inline;
-	margin: .5%;
+	display: block;
+	margin: 1%;
 	border-radius: 10px;
 	border-width: .25vw;
 	border-style: solid;
 	border-color: black;
-	padding: .4%;
-	max-width: 19%;
-	min-width: 10%;
-	width: 19%;
+	padding: .4vw;
+	width: 20vw;
 	float: left;
+}
+
+.content-column {
+	float: left;
+	display: inline;
+	width: 21vw;
 }

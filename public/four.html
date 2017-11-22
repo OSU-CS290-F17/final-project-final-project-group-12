@@ -4,11 +4,11 @@
 <meta charset = "utf-8">
 	<title>Connect four</title>
 	<link rel = "stylesheet" href = "four.css">
-
+	<link rel = "icon" href = "iconfour.jpg">
 </head>
 <body>
 
-<h1>The Deep Web</h1>
+<h1>Connect Four: The Online Game</h1>
 
 <div class = "title-container">
 	<img src = "miniconnect.png" class = "game-clip">
@@ -17,24 +17,27 @@
 
 
 <div id = "content">
-
-	<div class = "player" id = "player-one">
-		<div class = "username">Name: Anonymous</div>
-		<div class = "connect-status">Status: Connected</div>
-		<div class = "score">Score: 0</div>
-	</div>	
-
+	<div class = "content-column" id = "left-column">
+		<div class = "player" id = "player-one">
+			<div class = "username">Name: Anonymous</div>
+			<div class = "connect-status">Status: Connected</div>
+			<div class = "score">Score: 0</div>
+		</div>	
+		<div id = "turn-marker">Your turn!</div>
+		<button class = "button-option" id = "forfeit-button">Forfeit</button>
+		<button class = "button-option" id = "draw-button">Request a draw</button>
+	</div>
 	<div class = "spacer-div">
 	</div>
 	<div id = "board-container">
 		<div id = "button-array">
-			<button class = "chip-button">&darr;</button>
-			<button class = "chip-button">&darr;</button>
-			<button class = "chip-button">&darr;</button>
-			<button class = "chip-button">&darr;</button>
-			<button class = "chip-button">&darr;</button>
-			<button class = "chip-button">&darr;</button>
-			<button class = "chip-button">&darr;</button>
+			<button class = "chip-button"><img src = "arrowtwo.png" class = "darrow"></button>
+			<button class = "chip-button"><img src = "arrowtwo.png" class = "darrow"></button>
+			<button class = "chip-button"><img src = "arrowtwo.png" class = "darrow"></button>
+			<button class = "chip-button"><img src = "arrowtwo.png" class = "darrow"></button>
+			<button class = "chip-button"><img src = "arrowtwo.png" class = "darrow"></button>
+			<button class = "chip-button"><img src = "arrowtwo.png" class = "darrow"></button>
+			<button class = "chip-button"><img src = "arrowtwo.png" class = "darrow"></button>
 		</div>
 		<div id = "board">
 			<div class = "board-column">
@@ -98,10 +101,21 @@
 
 	<div class = "spacer-div">
 	</div>
-	<div class = "player" id = "player-two">
-		<div class = "username">Name: Anonymous</div>
-		<div class = "connect-status">Status: Connected</div>
-		<div class = "score">Score: 0</div>
+	<div class = "content-column" id = "right-column">
+		<div class = "player" id = "player-two">
+			<div class = "username">Name: Anonymous</div>
+			<div class = "connect-status">Status: Connected</div>
+			<div class = "score">Score: 0</div>
+		</div>
+
+		<div id="wrapper">
+    			<div id="chatbox"></div>
+     
+    			<form name="message" action="">
+        			<input name="usermsg" type="text" id="usermsg" size="63" />
+        			<input name="submitmsg" type="submit"  id="submitmsg" value="Send" />
+    			</form>
+		</div>
 	</div>
 
 </div>
