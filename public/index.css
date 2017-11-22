@@ -54,6 +54,12 @@ body {
 	margin: 0;
 	font-size: 18px;
 }
+#roomId{
+	margin-left: 7px;
+}
+.input{
+	padding: 2px;
+}
 
 #footer {
 	position: fixed;
