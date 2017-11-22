@@ -3,8 +3,8 @@
 <head>
 <meta charset = "utf-8">
 	<title>Deep Games</title>
-	<link rel = "stylesheet" href = "index.css">
-
+	<link rel ="stylesheet" href ="index.css">
+	<script type="text/javascript" src="./index.js"></script>
 </head>
 <<<<<<< HEAD
 <body>
@@ -41,7 +41,7 @@
 					<h2>Game Settings</h2>
 				</div>
 				<div class="box-content">
-					<form action="./four.html" method="get">
+					<form action="./four.html" method="get" id="settings">
 						<div>
 							<label for="playerId">Pseudo</label>
 							<input type ="text" id="playerId" name="player" />
@@ -55,7 +55,7 @@
 							<input type="color" id="color" name="color"/>
 							</div>
 							<div id="submit-button">
-								<button type="submit">Submit</button>
+								<button onClick="checkInput();">Submit</button>
 							</div>
 					</form>
 				</div>
