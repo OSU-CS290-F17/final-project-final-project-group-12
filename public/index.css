@@ -30,6 +30,7 @@ body {
 	margin: 20px 20px;
 	flex-wrap: wrap;
 	display: inline-block;
+	vertical-align: top;
 	width: 400px;
 	height:auto;
 }
