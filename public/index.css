@@ -1,50 +1,66 @@
-html{
+html {
+	padding: 0;
 	margin: 0;
 }
-body{
-  background-color: yellow;
+
+body {
 	margin: 0;
+	padding: 0;
 }
-h1 {
-	margin: 0;
-	width: 100%;
+
+#header {
 	background-color: black;
+	width: 100%
+	margin: 0;
+	padding: 10px 10px;
 	color: white;
-	height: 50px;
-	font-family: "verdana";
-	padding-left: 5%;
-}
-h3 {
-	font-family: "verdana";
-	font-size: 200%;
 }
 
-.box{
-	display: flex;
-}
-.games{
-  width: 400px;
-  float: left;
-  padding: 100px;
-}
-.buttons{
-	font-family: verdana;
-	font-size: 200%;
-	padding: 10px 40px 10px 40px;
-	background-color: yellow;
-	font-weight: bolder;
-	border-radius: 10px;
-	margin: 10px 20px 10px 30px;
+#header h1 {
+	font-family: "verdana";
+	margin: 0;
+	font-size: 36;
 }
 
-.topScores{
-  width: 400px;
-  float: right;
-  padding: 100px;
+.box {
+	border: 1px solid black;
+	background-color: lightgrey;
+	border-radius: 2px;
+	width: 400px;
+	margin: 20px 20px;
+	flex-wrap: wrap;
+	display: inline-block;
+	vertical-align: top;
+	width: 400px;
+	height:auto;
 }
-.content{
-  height: 100%;
-  padding: 5%;
-  width: 380px;
-  background-color: grey;
+
+.box-content {
+	padding: 20px;
+}
+
+.box-title {
+	margin-left: 0px;
+	margin-top: 0px;
+	background-color: black;
+	width: 100%
+	padding-top : 10px;
+	padding-bottom: 2px;
+	color: white;
+}
+.box-title h2 {
+	text-align: center;
+	font-family: "verdana";
+	margin: 0;
+	font-size: 18px;
+}
+
+#footer {
+	position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: black;
+    color: white;
+    text-align: center;
 }
