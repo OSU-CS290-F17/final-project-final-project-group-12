@@ -27,15 +27,15 @@
           </form>
         </div>
       </div>
-      <div id="highscores" class="box">
+      <div id="hit-parade" class="box">
         <div class="box-title">
-          <h2>Highscores</h2>
+          <h2>Hit-parade</h2>
         </div>
         <div class="box-content">
           <ol>
-            <li>
-              John Doe : 1562
-            </li>
+            {{#each scores}}
+              {{> playerScore}}
+            {{/each}}
           </ol>
         </div>
       </div>
@@ -57,5 +57,10 @@
     <div id="footer">
       <p>This is a footer</p>
     </div>
+    {{#if error}}
+    <script>
+      window.alert(text)
+    </script>
+    {{/if}}
   </body> 
 </html>
