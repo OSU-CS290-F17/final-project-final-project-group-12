@@ -8,8 +8,8 @@
 <div id = "content">
 	<div class = "content-column" id = "left-column">
 		<div class = "player" id = "player-one" data-name="{{player}}" data-room="{{room}}" data-color="{{color}}">
-			<div class = "username">Name: {{player}}</div>
-			<div class = "connect-status">Status: Connected</div>
+			<div class = "username">{{player}}</div>
+			<div class = "connect-status">Connected</div>
 			<div class = "score">Score: 0</div>
 		</div>	
 		<div id = "turn-marker">Your turn!</div>
@@ -90,19 +90,28 @@
 
 	<div class = "spacer-div">
 	</div>
-	<div class = "content-column" id = "right-column">
-		<div class = "player" id = "player-two">
-			<div class = "username">Name: Anonymous</div>
-			<div class = "connect-status">Status: Connected</div>
-			<div class = "score">Score: 0</div>
-		</div>
+	{{#if otherPlayer}}
+		<div class = "content-column" id = "right-column">
+			<div class = "player" id = "player-two"data-name="{{otherPlayer.name}}" data-room="{{room}}" data-color="{{otherPlayer.color}}">
+				<div class = "username">{{otherPlayer.name}}</div>
+				<div class = "connect-status" style = "color:green;">Connected</div>
+				<div class = "score">Score: 0</div>
+			</div>
+	{{else}}
+		<div class = "content-column" id = "right-column">
+			<div class = "player" id = "player-two">
+				<div class = "username">[...]</div>
+				<div class = "connect-status">Connected</div>
+				<div class = "score">Score: 0</div>
+			</div>
+	{{/if}}
 
 		<div id="wrapper">
     			<div id="chatbox"></div>
      
     			<form name="message" action="">
         			<input name="usermsg" type="text" id="usermsg" size="63" />
-        			<input name="submitmsg" type="submit"  id="submitmsg" value="Send" />
+        			<input name="submitmsg" type="button"  id="submitmsg" value="Send"/>
     			</form>
 		</div>
 	</div>

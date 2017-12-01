@@ -38,13 +38,49 @@ io.on('connection', function (socket) {
 	var player;
 	socket.on('player', function(session){
 		player = session;
+		socket.join(player.room);
 		console.log(player.name + " has just entered the room " + player.room);
+		addPlayer(player, function() {
+			MongoClient.connect(urlDb, function(err, db) {
+				db.collection("rooms").find({numRoom: parseInt(player.room)}).toArray(function(err, result) {
+					console.log(result[0]);
+					if (result[0].players_Number == 2) {
+						console.log("emitted");
+						socket.to(player.room).emit("newPlayer", player);
+					}
+					db.close();
+				});	
+			});
+		});	
 	});
 	socket.on('disconnect', function() {
 		console.log(player.name + " has just left the room " + player.room);
 		removePlayer(player);
 	});
+	socket.on('emittedMessage', function(content) {
+		console.log(content)
+		socket.in(player.room).emit('chatMessage', content);	
+	})
 });
+
+function addPlayer(player, next) {
+	MongoClient.connect(urlDb, function(err, db) {
+		if (err) throw err;
+		var query = {numRoom: parseInt(player.room)};
+		db.collection("rooms").find(query).toArray(function(err, result) {
+			result[0].players.push(player.name);
+			result[0].colors.push(player.color);
+			result[0].players_Number++;
+			db.collection("rooms").update(query, {$set: {players: result[0].players, players_Number: result[0].players_Number, colors: result[0].colors}}, function() {
+				db.collection("rooms").find(query).toArray(function(err2, result2) {
+					console.log(result[0]);
+					db.close();
+					next();
+				});	
+			});
+		});
+	});
+}
 
 function removePlayer(player) {
 	MongoClient.connect(urlDb, function(err, db) {
@@ -56,12 +92,15 @@ function removePlayer(player) {
 				result[0].players = [];
 				result[0].colors = [];
 			} else {
-				result[0].players;
-				result[0].colors;
+				result[0].players.splice(result.indexOf(player.name),1);
+				result[0].colors.splice(result.indexOf(player.name),1);
 			}
-			db.collection("rooms").update(query, {$set: {players: result[0].players, players_Number: result[0].players_Number--, colors: result[0].colors}});
-			db.collection("rooms").find(query).toArray(function(err2, result2) {
-				console.log(result[0]);
+			result[0].players_Number--;
+			db.collection("rooms").update(query, {$set: {players: result[0].players, players_Number: result[0].players_Number, colors: result[0].colors}}, function() {
+				db.collection("rooms").find(query).toArray(function(err2, result2) {
+					console.log(result[0]);
+					db.close();
+				});
 			});
 		});
 	});
@@ -125,19 +164,20 @@ app.post("/four", function(req,res) {
 			console.log(result[0]);
 			settings = {room: parseInt(req.body.room), player: req.body.player, color: req.body.color};
 			console.log(settings);
-		    if (result[0].players_Number < 2) {
-		    	result[0].players.push(req.body.player);
-		    	result[0].colors.push(req.body.color);
-		    	db.collection("rooms").update({numRoom: parseInt(req.body.room)}, {$set: {players: result[0].players, players_Number: result[0].players_Number+1, colors: result[0].colors}}     );
+		    if (result[0].players_Number == 0) {
+		    	res.status(200).render('four.handlebars', settings);
+			} else if (result[0].players_Number == 1) {
+				settings.otherPlayer = {name: result[0].players[0], color: result[0].colors[0]};
 		    	res.status(200).render('four.handlebars', settings);
 			} else {
 		    	var	error = {error: true, text: 'The room #' + req.body.room + ' is full !'};
 		    	res.status(200).render('index', error);
 		    }
-		    db.collection("rooms").find({numRoom: parseInt(req.body.room)}).toArray(function(err2, result2){
+		    /*db.collection("rooms").find({numRoom: parseInt(req.body.room)}).toArray(function(err2, result2){
 				console.log(result2);
 		    	db.close();
-			});
+			});*/
+			db.close();
 		});
 	
 	});
