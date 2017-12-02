@@ -5,20 +5,17 @@ var handlebars = require('express-handlebars');
 var MongoClient = require('mongodb').MongoClient;
 var socketio = require('socket.io').listen(4000).sockets;
 var urlDb = "mongodb://localhost:27017/mydb";
-<<<<<<< HEAD
 //var io = require('socket.io').listen(server);
 
 
 var io = require('socket.io').listen(app.listen(3000, function() {
     console.log('server listening on port 3000');
 })); 
-=======
 var port = 3050;
 
 //var io = require('socket.io').listen(server);
 //var users = [];
 //var connections = [];
->>>>>>> master
 
 
 MongoClient.connect(urlDb, function(err, db) {
@@ -42,7 +39,6 @@ MongoClient.connect(urlDb, function(err, db) {
 	db.close();
 	});
 
-<<<<<<< HEAD
 io.on('connection', function (socket) {
 	var player;
 	socket.on('player', function(session){
@@ -116,7 +112,6 @@ function removePlayer(player) {
 }
 
 /*MongoClient.connect(urlDb, function(err, db) {
-=======
 
   //chat thingy hopefully
   socketio.on('connection', function(socket){
@@ -162,7 +157,6 @@ function removePlayer(player) {
 /*
 
 MongoClient.connect(urlDb, function(err, db) {
->>>>>>> master
 	if (err) throw err;
 	console.log("Database created !");
 	var settings = {numRoom: 235, player_Number: 1, players: ['Pierre'], color: '#ffffff'};
@@ -183,9 +177,6 @@ app.use(bodyParser.json());
 app.engine('handlebars', handlebars({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
 
-<<<<<<< HEAD
-
-=======
 server.get('/', function(req, res, next) {
     res.status(200).render('index');
 });
@@ -193,8 +184,6 @@ server.get('/', function(req, res, next) {
 server.get('/four', function(req, res, next) {
     res.status(200).render('four');
 })
->>>>>>> master
-
 
 app.get('/', function(req, res, next) {
 	var highscores = [];
@@ -244,7 +233,6 @@ app.post("/four", function(req,res) {
 		    /*db.collection("rooms").find({numRoom: parseInt(req.body.room)}).toArray(function(err2, result2){
 				console.log(result2);
 		    	db.close();
-<<<<<<< HEAD
 			});*/
 			db.close();
 		});
@@ -252,7 +240,6 @@ app.post("/four", function(req,res) {
 	});
 
 });
-=======
 			});
 	});
 
@@ -299,4 +286,3 @@ server.listen(port, function() {
 server.listen(3000, function() {
     console.log('server listening on port 3000');
 });
->>>>>>> master
