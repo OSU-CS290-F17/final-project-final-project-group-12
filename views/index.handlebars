@@ -1,7 +1,6 @@
 
     {{>header}}
 
-    <script type="text/javascript" src="./index.js"></script>
     <div id="content">
       <div id="settings" class="box">
         <div class="box-title">
@@ -58,10 +57,10 @@
 			<div id="Mainwrapper">
             <div class="status"></div>
                 <input name="namemsg" type="text"  id="Mainnamemsg" placeholder="Enter your Name" />
-                <input name="button" type="submit"  id="Mainsubmitmsg" placeholder ="send" value="Send" />
+                <button type="button" onClick="setname();">Submit</button>
 	    			<div id="Mainchatbox"></div>
 
-	        			<input name="Mainusermsg" type="text" id="Mainusermsg" placeholder="Enter Message" size="63"></textarea>
+	        			<input type="text" id="Mainusermsg" placeholder="Enter Message" size="63"></textarea>
 			</div>
     </div>
 
@@ -69,6 +68,7 @@
     <div id="footer">
       <p>This is a footer</p>
     </div>
+    <script type="text/javascript" src="./index.js"></script>
     {{#if error}}
     <script>
       window.alert("{{text}}");
