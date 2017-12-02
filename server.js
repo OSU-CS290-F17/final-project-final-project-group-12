@@ -53,11 +53,13 @@ io.on('connection', function (socket) {
 		});	
 	});
 	socket.on('disconnect', function() {
-		console.log(player.name + " has just left the room " + player.room);
-		socket.to(player.room).emit("disconnectedPlayer");
-		var content = {author: "Server", text: "The other player just disconnected !"};
-		socket.in(player.room).emit('chatMessage', content);	
-		removePlayer(player);
+		if (player) {
+			console.log(player.name + " has just left the room " + player.room);
+			socket.to(player.room).emit("disconnectedPlayer");
+			var content = {author: "Server", text: "The other player just disconnected !"};
+			socket.in(player.room).emit('chatMessage', content);	
+			removePlayer(player);
+		}
 	});
 	socket.on('emittedMessage', function(content) {
 		console.log(content)
@@ -76,28 +78,13 @@ io.on('connection', function (socket) {
 					console.log(result);
 					result[0].board[settings.column][result[0].board[settings.column].length] = result[0].players.indexOf(settings.player)+1;
 					db.collection("rooms").update(query, {$set: {board: result[0].board}});
-					socket.emit('newToken', {x : settings.column, player: result[0].players.indexOf(settings.player)+1, board: result[0].board});
+					socket.emit('newToken', {x : settings.column, color: result[0].colors[result[0].players.indexOf(settings.player)], y: result[0].board[settings.column].length});
 					db.close();
 				}
 			})
 		})
 	}
-});
-
-function addToken(settings) {
-	var query = {numRoom: parseInt(settings.room)};
-	MongoClient.connect(urlDb, function(err,db) {
-		db.collection("rooms").find(query).toArray(function(err, result) {
-			if (result[0].board[settings.column].length < 7) {
-				console.log(result);
-				result[0].board[settings.column][result[0].board[settings.column].length] = result[0].players.indexOf(settings.player)+1;
-				db.collection("rooms").update(query, {$set: {board: result[0].board}});
-				console.log(result[0].board[settings.column]);
-				db.close();
-			}
-		})
-	})
-}
+});	
 
 function addPlayer(player, next) {
 	MongoClient.connect(urlDb, function(err, db) {

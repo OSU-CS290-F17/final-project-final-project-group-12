@@ -47,6 +47,8 @@ socket.on('disconnectedPlayer', function() {
 
 socket.on('newToken', function(content) {
 	//Add a function to drop a token here
+	console.log(content);
+	document.getElementById("board").children[content.x].children[5-content.y].style.backgroundColor = content.color;	
 })
 
 function pressEnter(event) {
