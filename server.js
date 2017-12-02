@@ -17,7 +17,7 @@ MongoClient.connect(urlDb, function(err, db) {
   db.collection("rooms").deleteMany({}, function(err, obj) {
     console.log(obj.result.n + " document(s) deleted");
 	for (let i=1; i <= 500; i++ ) {
-		db.collection("rooms").insertOne({numRoom : i, players_Number: 0, players: [], colors: []}, function(err, obj) {
+		db.collection("rooms").insertOne({numRoom : i, players_Number: 0, players: [], colors: [], board: [[], [],[],[],[],[],[]], turn: 1}, function(err, obj) {
 			//console.log(obj.result.n + "document(s) added");
 			
 		//console.log(i +" element updated");
@@ -26,6 +26,11 @@ MongoClient.connect(urlDb, function(err, db) {
 	for (let i=1; i <= 10; i++ ) {
 		db.collection("highscores").insertOne({name: "John Doe", score : i*500}, function(err2, obj2) {
 			console.log(obj2.result.n + "document(s) added");
+
+
+
+
+
 		});
 	}
 		//console.log(i +" element updated");
@@ -61,7 +66,20 @@ io.on('connection', function (socket) {
 		console.log(content)
 		socket.in(player.room).emit('chatMessage', content);	
 	})
+	socket.on('putToken', function(content) {
+		console.log(content);
+		addToken(content);
+	})
 });
+
+function addToken(settings) {
+	var query = {numRoom: parseInt(player.room)};
+	MongoClient.connect(urlDb, function(err,db) {
+		db.collection("rooms").find(query).toArray(function(err, result) {
+			return true;
+		})
+	})
+}
 
 function addPlayer(player, next) {
 	MongoClient.connect(urlDb, function(err, db) {
@@ -91,12 +109,13 @@ function removePlayer(player) {
 			if(result[0].players_Number == 1) {
 				result[0].players = [];
 				result[0].colors = [];
+				result[0].board = [[],[],[],[],[],[],[]];
 			} else {
 				result[0].players.splice(result.indexOf(player.name),1);
 				result[0].colors.splice(result.indexOf(player.name),1);
 			}
 			result[0].players_Number--;
-			db.collection("rooms").update(query, {$set: {players: result[0].players, players_Number: result[0].players_Number, colors: result[0].colors}}, function() {
+			db.collection("rooms").update(query, {$set: {players: result[0].players, players_Number: result[0].players_Number, colors: result[0].colors, board: result[0].board}}, function() {
 				db.collection("rooms").find(query).toArray(function(err2, result2) {
 					console.log(result[0]);
 					db.close();

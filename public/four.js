@@ -3,6 +3,10 @@ var playerData = {name: player.dataset.name, room: player.dataset.room, color: p
 var socket = io.connect('http://localhost:3000');
 socket.emit('player', playerData);
 document.getElementById("submitmsg").addEventListener("click", sendMessage);
+document.getElementById("usermsg").addEventListener("keypress", pressEnter);
+for (button of document.getElementsByClassName("chip-button")) {
+	button.addEventListener("click", putToken);
+}
 
 socket.on('newPlayer', function(newPlayerData) {
 	console.log(newPlayerData);
@@ -20,6 +24,20 @@ socket.on('chatMessage', function(content) {
 	console.log(liElement);	
 	document.getElementById("chatbox").appendChild(liElement);
 })
+
+socket.on('fullColumn', function(content) {
+	var column = document.getElementById(content);
+	column.style.background.Color="grey";
+	column.removeEventListener("click", putToken);
+})
+
+function pressEnter(event) {
+    if (event.which == 13 || event.keyCode == 13) {
+    	sendMessage();
+    	return true;
+    }
+    return false;
+};
 
 function updateStatus(state) {
 	if (state) {
@@ -47,4 +65,9 @@ function sendMessage() {
 	}
 }
 
+function putToken(button) {
+	var content = playerData;
+	var token = parseInt(button.id);
+	socket.emit('putToken', {token : token, player : player.name});
+}
 
