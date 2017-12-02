@@ -3,22 +3,14 @@ var app = express();
 var server = require('http').Server(app);
 var handlebars = require('express-handlebars');
 var MongoClient = require('mongodb').MongoClient;
-var socketio = require('socket.io').listen(4000).sockets;
+var socketio = require('socket.io').sockets;
 var urlDb = "mongodb://localhost:27017/mydb";
-<<<<<<< HEAD
 //var io = require('socket.io').listen(server);
 
 
 var io = require('socket.io').listen(app.listen(3000, function() {
     console.log('server listening on port 3000');
 })); 
-=======
-var port = 3050;
-
-//var io = require('socket.io').listen(server);
-//var users = [];
-//var connections = [];
->>>>>>> master
 
 
 MongoClient.connect(urlDb, function(err, db) {
@@ -46,8 +38,8 @@ MongoClient.connect(urlDb, function(err, db) {
 	
 	db.close();
 	});
+ });
 
-<<<<<<< HEAD
 io.on('connection', function (socket) {
 	var player;
 	socket.on('player', function(session){
@@ -107,7 +99,7 @@ function addPlayer(player, next) {
 			});
 		});
 	});
-}
+};
 
 function removePlayer(player) {
 	MongoClient.connect(urlDb, function(err, db) {
@@ -134,86 +126,12 @@ function removePlayer(player) {
 	});
 }
 
-/*MongoClient.connect(urlDb, function(err, db) {
-=======
-
-  //chat thingy hopefully
-  socketio.on('connection', function(socket){
-    let chat = db.collection('chats');
-    //sending chat status
-    sendStatus = function(s){
-      socket.emit(s);
-    }
-
-    //gets chats from collection also limit number of chats
-    chat.find().limit(100).sort({_id:1}).toArray(function(err, res){
-      if(err) throw err;
-      //emit result
-      socket.emit('output',res);
-    });
-    socket.on('input',function(data){
-      let name = data.name;
-      let message = data.message;
-      //checking checkInput
-      if(name == '' || message == ''){
-        //send Error
-        sendStatus('Please enter name or message!!')
-      }
-      else{
-        //insert
-        chat.insert({name: name, message: message}, function(){
-          socketio.emit('output', [data]);
-          sendStatus({message: 'Message sent', clear: true});
-        });
-      }
-    });
-    //handling clear
-    socket.on('clear', function(data){
-      //remove all chats from collection
-      chat.remove({},function(){
-        socket.emit('cleared');
-      });
-    });
-  });
-
-});
-
-/*
-
-MongoClient.connect(urlDb, function(err, db) {
->>>>>>> master
-	if (err) throw err;
-	console.log("Database created !");
-	var settings = {numRoom: 235, player_Number: 1, players: ['Pierre'], color: '#ffffff'};
-	db.collection("rooms").insertOne(settings,
-		function(err, res) {
-			if (err) throw err;
-			console.log("1 document inserted");
-			db.close();
-	});
-});
-*/
-
-
 bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.engine('handlebars', handlebars({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
-
-<<<<<<< HEAD
-
-=======
-server.get('/', function(req, res, next) {
-    res.status(200).render('index');
-});
-
-server.get('/four', function(req, res, next) {
-    res.status(200).render('four');
-})
->>>>>>> master
-
 
 app.get('/', function(req, res, next) {
 	var highscores = [];
@@ -229,15 +147,11 @@ app.get('/', function(req, res, next) {
 	})
 });
 
-app.get('/four', function(req, res, next) {
-    res.status(200).render('four.handlebars');
-})
-
 app.use(express.static('public'));
 
-/*app.get('*', function(req, res, next) {
+app.get('*', function(req, res, next) {
     res.status(404).send('404');
-});*/
+});
 
 app.post("/four", function(req,res) {
 	var settings;
@@ -260,62 +174,9 @@ app.post("/four", function(req,res) {
 		    	var	error = {error: true, text: 'The room #' + req.body.room + ' is full !'};
 		    	res.status(200).render('index', error);
 		    }
-		    /*db.collection("rooms").find({numRoom: parseInt(req.body.room)}).toArray(function(err2, result2){
-				console.log(result2);
-		    	db.close();
-<<<<<<< HEAD
-			});*/
-			db.close();
+		    db.close();
 		});
 	
 	});
 
 });
-=======
-			});
-	});
-
-});
-
-});
-
-server.listen(port, function() {
-    console.log('server listening on port ', port);
-
-/*io.sockets.on('connection', function(socket){
-	connections.push(socket);
-	console.log('Connected: %s sockets connected', connections.length);
-
-	//Disconnect
-	socket.on('disconnect', function(data){
-		if(!socket.username) return;
-		users.splice(users.indexOf(socket.username), 1);
-		updateUsernames();
-		connections.splice(connections.indexOf(socket), 1);
-		console.log('Disconnected: %s sockets connected', connections.length);
-	});
-
-	//Send Message
-	socket.on('send message', function(data){
-		io.sockets.emit('new message', {msg: data, user: socket.username});
-	});
-
-	// New User
-	socket.on('new user', function(data, callback){
-		callback(true);
-		socket.username = data;
-		users.push(socket.username);
-		updateUsernames();
-	});
-
-	function updateUsernames(){
-		io.sockets.emit('get users', users);
-	}
-
-});*/
-
-
-server.listen(3000, function() {
-    console.log('server listening on port 3000');
-});
->>>>>>> master
