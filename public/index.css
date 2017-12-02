@@ -7,6 +7,9 @@ body {
 	margin: 0;
 	padding: 0;
 }
+#ChatColor{
+	color: orange;
+}
 
 #header {
 	background-color: black;
