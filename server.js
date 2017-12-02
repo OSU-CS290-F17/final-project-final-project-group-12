@@ -3,6 +3,7 @@ var server = express();
 var handlebars = require('express-handlebars');
 var MongoClient = require('mongodb').MongoClient;
 var urlDb = "mongodb://localhost:27017/mydb";
+var port = 3050;
 
 MongoClient.connect(urlDb, function(err, db) {
   if (err) throw err;
@@ -18,7 +19,9 @@ MongoClient.connect(urlDb, function(err, db) {
 	});
 }); 
 
-/*MongoClient.connect(urlDb, function(err, db) {
+/*
+
+MongoClient.connect(urlDb, function(err, db) {
 	if (err) throw err;
 	console.log("Database created !");
 	var settings = {numRoom: 235, player_Number: 1, players: ['Pierre'], color: '#ffffff'};
@@ -28,7 +31,9 @@ MongoClient.connect(urlDb, function(err, db) {
 			console.log("1 document inserted");
 			db.close();
 	});
-});*/
+});
+*/
+
 
 bodyParser = require("body-parser");
 server.use(bodyParser.urlencoded({ extended: true }));
@@ -38,11 +43,11 @@ server.engine('handlebars', handlebars({ defaultLayout: 'main' }));
 server.set('view engine', 'handlebars');
 
 server.get('/', function(req, res, next) {
-    res.status(200).render('index.handlebars');
+    res.status(200).render('index');
 });
 
 server.get('/four', function(req, res, next) {
-    res.status(200).render('four.handlebars');
+    res.status(200).render('four');
 })
 
 server.use(express.static('public'));
@@ -90,6 +95,6 @@ server.post("/four", function(req,res) {
 
 });
 
-server.listen(3000, function() {
-    console.log('server listening on port 3000');
-}); 
+server.listen(port, function() {
+    console.log('server listening on port ', port);
+});
