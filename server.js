@@ -19,19 +19,11 @@ MongoClient.connect(urlDb, function(err, db) {
     console.log(obj.result.n + " document(s) deleted");
 	for (let i=1; i <= 500; i++ ) {
 		db.collection("rooms").insertOne({numRoom : i, players_Number: 0, players: [], colors: [], board: [[], [],[],[],[],[],[]], turn: 1}, function(err, obj) {
-			//console.log(obj.result.n + "document(s) added");
-			
-		//console.log(i +" element updated");
 		});
 	}
 	for (let i=1; i <= 10; i++ ) {
 		db.collection("highscores").insertOne({name: "John Doe", score : i*500}, function(err2, obj2) {
 			console.log(obj2.result.n + "document(s) added");
-
-
-
-
-
 		});
 	}
 		//console.log(i +" element updated");
@@ -61,6 +53,9 @@ io.on('connection', function (socket) {
 	});
 	socket.on('disconnect', function() {
 		console.log(player.name + " has just left the room " + player.room);
+		socket.to(player.room).emit("disconnectedPlayer");
+		var content = {author: "Server", text: "The other player just disconnected !"};
+		socket.in(player.room).emit('chatMessage', content);	
 		removePlayer(player);
 	});
 	socket.on('emittedMessage', function(content) {
@@ -71,13 +66,34 @@ io.on('connection', function (socket) {
 		console.log(content);
 		addToken(content);
 	})
+
+	function addToken(settings) {
+		var query = {numRoom: parseInt(settings.room)};
+		MongoClient.connect(urlDb, function(err,db) {
+			db.collection("rooms").find(query).toArray(function(err, result) {
+				if (result[0].board[settings.column].length < 7) {
+					console.log(result);
+					result[0].board[settings.column][result[0].board[settings.column].length] = result[0].players.indexOf(settings.player)+1;
+					db.collection("rooms").update(query, {$set: {board: result[0].board}});
+					socket.emit('newToken', {x : settings.column, player: result[0].players.indexOf(settings.player)+1, board: result[0].board});
+					db.close();
+				}
+			})
+		})
+	}
 });
 
 function addToken(settings) {
-	var query = {numRoom: parseInt(player.room)};
+	var query = {numRoom: parseInt(settings.room)};
 	MongoClient.connect(urlDb, function(err,db) {
 		db.collection("rooms").find(query).toArray(function(err, result) {
-			return true;
+			if (result[0].board[settings.column].length < 7) {
+				console.log(result);
+				result[0].board[settings.column][result[0].board[settings.column].length] = result[0].players.indexOf(settings.player)+1;
+				db.collection("rooms").update(query, {$set: {board: result[0].board}});
+				console.log(result[0].board[settings.column]);
+				db.close();
+			}
 		})
 	})
 }
