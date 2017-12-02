@@ -61,6 +61,44 @@ body {
 	padding: 2px;
 }
 
+#Mainwrapper {
+	clear:both;
+	float: left;
+	display: inline-block;
+	background-color: lightgrey;
+	width: 95%;
+	margin: 1%;
+	padding: 1%;
+}
+
+#Mainchatbox {
+	width: 95%;
+	margin: auto;
+	background-color: white;
+	border-width: .1vw;
+	border-style: solid;
+	border-color: lightblue;
+	height: 30vh;
+
+}
+
+#Mainnamemsg{
+	width: 75%;
+	margin: 2%;
+}
+
+#Mainusermsg{
+	width: 75%;
+	margin: 2%;
+}
+
+#Mainsubmitmsg{
+	width: 15%;
+	font-size: .6vw;
+	padding: .5%;
+}
+
+
 #footer {
 	position: fixed;
     left: 0;

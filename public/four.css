@@ -130,6 +130,10 @@ h1 {
 	width: 100%;
 }
 
+.chip-one{
+	background-color: red;
+}
+
 .chip-button {
 	display: inline;
 	float: left;
@@ -228,8 +232,3 @@ h1 {
     text-decoration: none;
     cursor: pointer;
 }
-
-
-
-
-

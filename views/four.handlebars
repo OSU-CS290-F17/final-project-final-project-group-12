@@ -1,5 +1,4 @@
-<h1>Connect Four: The Online Game</h1>
-
+{{>header}}
 <div class = "title-container">
 	<img src = "miniconnect.png" class = "game-clip">
 	<div class = "game-title">Connect four</div>
@@ -11,7 +10,7 @@
 			<div class = "username">{{player}}</div>
 			<div class = "connect-status">Connected</div>
 			<div class = "score">Score: 0</div>
-		</div>	
+		</div>
 		<div id = "turn-marker">Your turn!</div>
 		<button class = "button-option" id = "forfeit-button">Forfeit</button>
 		<button class = "button-option" id = "draw-button">Request a draw</button>
@@ -29,62 +28,13 @@
 			<button class = "chip-button"><img src = "arrowtwo.png" class = "darrow"></button>
 		</div>
 		<div id = "board">
-			<div class = "board-column">
-				<div class = "chip-slot"></div>
-				<div class = "chip-slot"></div>
-				<div class = "chip-slot"></div>
-				<div class = "chip-slot"></div>
-				<div class = "chip-slot"></div>
-				<div class = "chip-slot"></div>
-			</div>
-			<div class = "board-column">
-				<div class = "chip-slot"></div>
-				<div class = "chip-slot"></div>
-				<div class = "chip-slot"></div>
-				<div class = "chip-slot"></div>
-				<div class = "chip-slot"></div>
-				<div class = "chip-slot"></div>
-			</div>
-			<div class = "board-column">
-				<div class = "chip-slot"></div>
-				<div class = "chip-slot"></div>
-				<div class = "chip-slot"></div>
-				<div class = "chip-slot"></div>
-				<div class = "chip-slot"></div>
-				<div class = "chip-slot"></div>
-			</div>
-			<div class = "board-column">
-				<div class = "chip-slot"></div>
-				<div class = "chip-slot"></div>
-				<div class = "chip-slot"></div>
-				<div class = "chip-slot"></div>
-				<div class = "chip-slot"></div>
-				<div class = "chip-slot"></div>
-			</div>
-			<div class = "board-column">
-				<div class = "chip-slot"></div>
-				<div class = "chip-slot"></div>
-				<div class = "chip-slot"></div>
-				<div class = "chip-slot"></div>
-				<div class = "chip-slot"></div>
-				<div class = "chip-slot"></div>
-			</div>
-			<div class = "board-column">
-				<div class = "chip-slot"></div>
-				<div class = "chip-slot"></div>
-				<div class = "chip-slot"></div>
-				<div class = "chip-slot"></div>
-				<div class = "chip-slot"></div>
-				<div class = "chip-slot"></div>
-			</div>
-			<div class = "board-column">
-				<div class = "chip-slot"></div>
-				<div class = "chip-slot"></div>
-				<div class = "chip-slot"></div>
-				<div class = "chip-slot"></div>
-				<div class = "chip-slot"></div>
-				<div class = "chip-slot"></div>
-			</div>
+			{{>col}}
+			{{>col}}
+			{{>col}}
+			{{>col}}
+			{{>col}}
+			{{>col}}
+			{{>col}}
 		</div>
 	</div>
 
@@ -105,7 +55,12 @@
 				<div class = "score">Score: 0</div>
 			</div>
 	{{/if}}
-
+	<div class = "content-column" id = "right-column">
+		<div class = "player" id = "player-two">
+			<div class = "username">Name: {{oplayer}}</div>
+			<div class = "connect-status">Status: {{ostatus}}</div>
+			<div class = "score">Score: {{oscore}}</div>
+		</div>
 		<div id="wrapper">
     			<div id="chatbox"></div>
      
