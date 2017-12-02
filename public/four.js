@@ -14,8 +14,9 @@ function dropAChip(columnNumber){
 
 }
 
-function chipFall(column){
-
-
-
+function chipFall(columnObject){
+	var singleColumn = columnObject.querySelectorAll('.chip-slot');
+	var objectToChange = singleColumn[singleColumn.length - 1];
+	var objectToChange.classList.add('chip-one');
+	var objectToChange.classList.remove('chip-slot');
 }
