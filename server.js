@@ -78,7 +78,7 @@ io.on('connection', function (socket) {
 					console.log(result);
 					result[0].board[settings.column][result[0].board[settings.column].length] = result[0].players.indexOf(settings.player)+1;
 					db.collection("rooms").update(query, {$set: {board: result[0].board}});
-					socket.emit('newToken', {x : settings.column, color: result[0].colors[result[0].players.indexOf(settings.player)], y: result[0].board[settings.column].length});
+					socket.emit('newToken', {x : settings.column, color: result[0].colors[result[0].players.indexOf(settings.player)], y: result[0].board[settings.column].length-1});
 					db.close();
 				}
 			})
