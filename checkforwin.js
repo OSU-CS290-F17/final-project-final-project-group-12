@@ -21,6 +21,21 @@ Each of the mini-elemets should contain a value: 0 if unoccupied
   * * * * * * *
   * * * * * * *
 */
+/*
+
+var board = 
+	[
+		[1, 0, 0, 0, 0, 0],
+		[0, 1, 0, 0, 0, 0],
+		[0, 1, 0, 0, 0, 0],
+		[0, 1, 0, 0, 0, 0],
+		[0, 1, 0, 0, 0, 0],
+		[0, 1, 0, 0, 0, 0],
+		[0, 1, 0, 0, 0, 0]
+	]
+
+*/
+// checkForWin(board); <---- FOR TESTING PURPOSES ONLY
 
 function checkForWin(boardstate){
 	var result = 0;
@@ -28,10 +43,13 @@ function checkForWin(boardstate){
 	for(var i = 0; i < 7 && !success; i++){
 		for(var j = 0; j < 6 && !success; j++){
 			result = checkAtSpot(boardstate, i, j, boardstate[i][j]);
-			if(result)
+			if(result){
 				success = true;
+				console.log("A player has won the game.");
+			}
 		}
 	}
+	console.log(result);
 	return result;
 }
 
