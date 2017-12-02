@@ -11,3 +11,5 @@ function checkInput() {
 	else
 	 	window.alert(text);
 }
+
+document.getElementById("color").value = randomColor();
