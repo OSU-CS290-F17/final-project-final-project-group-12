@@ -1,9 +1,22 @@
-<<<<<<< HEAD
 var player = document.getElementById("player-one");
 var playerData = {name: player.dataset.name, room: player.dataset.room, color: player.dataset.color};
 var socket = io.connect('http://localhost:3000');
 socket.emit('player', playerData);
 document.getElementById("submitmsg").addEventListener("click", sendMessage);
+document.getElementById("usermsg").addEventListener("keypress", pressEnter);
+for (button of document.getElementsByClassName("chip-button")) {
+	button.addEventListener("click", putToken);
+}
+
+var chipArray = document.querySelectorAll('.chip-button');
+
+for(var i = 0; i < chipArray.length; i++){
+	chipArray[i].addEventListener('click', function(event){
+		console.log("== Column pressed: ", i);
+		var columnArray = document.querySelectorAll('.board-column');
+		chipFall(columnArray[i]);
+	});
+}
 
 socket.on('newPlayer', function(newPlayerData) {
 	console.log(newPlayerData);
@@ -21,6 +34,20 @@ socket.on('chatMessage', function(content) {
 	console.log(liElement);	
 	document.getElementById("chatbox").appendChild(liElement);
 })
+
+socket.on('fullColumn', function(content) {
+	var column = document.getElementById(content);
+	column.style.background.Color="grey";
+	column.removeEventListener("click", putToken);
+})
+
+function pressEnter(event) {
+    if (event.which == 13 || event.keyCode == 13) {
+    	sendMessage();
+    	return true;
+    }
+    return false;
+};
 
 function updateStatus(state) {
 	if (state) {
@@ -48,20 +75,11 @@ function sendMessage() {
 	}
 }
 
-
-=======
-
-var chipArray = document.querySelectorAll('.chip-button');
-
-for(var i = 0; i < chipArray.length; i++){
-	chipArray[i].addEventListener('click', function(event){
-		console.log("== Column pressed: ", i);
-		var columnArray = document.querySelectorAll('.board-column');
-		chipFall(columnArray[i]);
-	});
+function putToken(button) {
+	var content = playerData;
+	var token = parseInt(button.id);
+	socket.emit('putToken', {token : token, player : player.name});
 }
-
-
 
 function dropAChip(event, columnNumber){
 	console.log("== Column pressed: ", columnNumber);
@@ -77,4 +95,3 @@ function chipFall(columnObject){
 	objectToChange.classList.add('chip-{{1 or 2 here}}');
 	objectToChange.classList.remove('chip-slot');
 }
->>>>>>> master
