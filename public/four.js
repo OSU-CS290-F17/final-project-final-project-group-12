@@ -2,14 +2,19 @@
 var chipArray = document.querySelectorAll('.chip-button');
 
 for(var i = 0; i < chipArray.length; i++){
-	chipArray[i].addEventListener('onclick' dropAChip(i));
+	chipArray[i].addEventListener('click', function(event){
+		console.log("== Column pressed: ", i);
+		var columnArray = document.querySelectorAll('.board-column');
+		chipFall(columnArray[i]);
+	});
 }
 
 
 
-function dropAChip(columnNumber){
+function dropAChip(event, columnNumber){
+	console.log("== Column pressed: ", columnNumber);
 	var columnArray = document.querySelectorAll('.board-column');
-	chipFall(columnArray[column]);
+	chipFall(columnArray[columnNumber]);
 
 
 }
@@ -17,6 +22,6 @@ function dropAChip(columnNumber){
 function chipFall(columnObject){
 	var singleColumn = columnObject.querySelectorAll('.chip-slot');
 	var objectToChange = singleColumn[singleColumn.length - 1];
-	var objectToChange.classList.add('chip-one');
-	var objectToChange.classList.remove('chip-slot');
+	objectToChange.classList.add('chip-{{1 or 2 here}}');
+	objectToChange.classList.remove('chip-slot');
 }

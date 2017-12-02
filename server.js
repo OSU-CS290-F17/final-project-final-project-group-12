@@ -142,10 +142,8 @@ server.post("/four", function(req,res) {
 
 });
 
-<<<<<<< HEAD
 server.listen(port, function() {
     console.log('server listening on port ', port);
-=======
 
 /*io.sockets.on('connection', function(socket){
 	connections.push(socket);
@@ -182,5 +180,4 @@ server.listen(port, function() {
 
 server.listen(3000, function() {
     console.log('server listening on port 3000');
->>>>>>> 6e3580830ba6efb54097e16de256b84761863b72
 });
