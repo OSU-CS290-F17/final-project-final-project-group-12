@@ -18,19 +18,18 @@ var playerData = {name: 'Guest', room: '1', color: "blue"};
 var socket = io.connect('http://localhost:3000');
 
 
-document.getElementById("Mainsubmitmsg").onclick = function(){
+function setname(){
 	playerData.name = document.getElementById("Mainnamemsg").value;
+	document.getElementById("Mainnamemsg").value = playerData.name;
+	joining(playerData.name + " joined the chat")
 }
 
-//function running(){
-//if(playerData.name != NULL){
 	socket.emit('player', playerData);
 
 document.getElementById("Mainusermsg").addEventListener("keypress", pressEnter);
 
 socket.on('chatMessage', function(content) {
 	var liElement = document.createElement("li");
-	liElement.setAttribute("id","ChatColor")
 	var textNode = document.createTextNode(content.author + " says : " + content.text);
 	liElement.appendChild(textNode);
 	console.log(liElement);
@@ -57,6 +56,20 @@ function sendMessage() {
 	if (message) {
 		var liElement = document.createElement("li");
 		var textNode = document.createTextNode(playerData.name + " says : " + message);
+		liElement.appendChild(textNode);
+		console.log(liElement);
+		document.getElementById("Mainchatbox").appendChild(liElement);
+
+		socket.emit('emittedMessage', {author : playerData.name, text: message});
+		document.getElementById("Mainusermsg").value = '';
+	} else {
+		window.alert("Input is empty !");
+	}
+}
+function joining(message) {
+	if (message) {
+		var liElement = document.createElement("li");
+		var textNode = document.createTextNode("Server says : " + message);
 		liElement.appendChild(textNode);
 		console.log(liElement);
 		document.getElementById("Mainchatbox").appendChild(liElement);
