@@ -10,13 +10,13 @@ for (button of document.getElementsByClassName("chip-button")) {
 
 var chipArray = document.querySelectorAll('.chip-button');
 
-for(var i = 0; i < chipArray.length; i++){
-	chipArray[i].addEventListener('click', function(event){
-		console.log("== Column pressed: ", i);
-		var columnArray = document.querySelectorAll('.board-column');
-		chipFall(columnArray[i]);
-	});
-}
+// for(var i = 0; i < chipArray.length; i++){
+// 	chipArray[i].addEventListener('click', function(event){
+// 		console.log("== Column pressed: ", i);
+// 		var columnArray = document.querySelectorAll('.board-column');
+// 		chipFall(columnArray[i]);
+// 	});
+// }
 
 socket.on('newPlayer', function(newPlayerData) {
 	console.log(newPlayerData);
@@ -41,6 +41,14 @@ socket.on('fullColumn', function(content) {
 	column.removeEventListener("click", putToken);
 })
 
+socket.on('disconnectedPlayer', function() {
+	updateStatus(0);
+})
+
+socket.on('newToken', function(content) {
+	//Add a function to drop a token here
+})
+
 function pressEnter(event) {
     if (event.which == 13 || event.keyCode == 13) {
     	sendMessage();
@@ -54,6 +62,7 @@ function updateStatus(state) {
 		document.getElementById("player-two").children[1].innerText = "Connected";
 		document.getElementById("player-two").children[1].style.color = "green";
 	} else {
+		document.getElementById("player-two").children[0].innerText = "[...]";
 		document.getElementById("player-two").children[1].innerText = "Not connected";
 		document.getElementById("player-two").children[1].style.color = "red";
 	}
@@ -75,23 +84,7 @@ function sendMessage() {
 	}
 }
 
-function putToken(button) {
-	var content = playerData;
-	var token = parseInt(button.id);
-	socket.emit('putToken', {token : token, player : player.name});
-}
-
-function dropAChip(event, columnNumber){
-	console.log("== Column pressed: ", columnNumber);
-	var columnArray = document.querySelectorAll('.board-column');
-	chipFall(columnArray[columnNumber]);
-
-
-}
-
-function chipFall(columnObject){
-	var singleColumn = columnObject.querySelectorAll('.chip-slot');
-	var objectToChange = singleColumn[singleColumn.length - 1];
-	objectToChange.classList.add('chip-{{1 or 2 here}}');
-	objectToChange.classList.remove('chip-slot');
+function putToken(event) {
+	var token = parseInt(event.target.id);
+	socket.emit('putToken', {column : token, player : playerData.name, room: playerData.room});
 }
