@@ -11,8 +11,9 @@ document.getElementById("submitmsg").addEventListener("click", sendMessage);
 document.getElementById("draw-button").addEventListener("click", votetoDraw);
 document.getElementById("usermsg").addEventListener("keypress", pressEnter);
 
-for (button of document.getElementsByClassName("chip-button")) {
-	button.addEventListener("click", putToken(event));
+var buttonarray = document.querySelectorAll("chip-button");
+for (var i = 0; i < 7; i++) {
+	buttonarray[i].addEventListener("click", putToken(i));
 }
 
 socket.on('newPlayer', function(newPlayerData) {
@@ -119,8 +120,7 @@ function switchTurn(){
 	}
 }
 
-function putToken(event) {
-	var token = parseInt(event.target.id);
+function putToken(token) {
 	// console.log(event.target.id);
 	console.log("lol");
 	socket.emit('putToken', {column : token, player : playerData.name, room: playerData.room});
