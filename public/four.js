@@ -82,10 +82,11 @@ function updateStatus(state) {
 function votetoDraw() {
 	socket.emit('drawrequest');
 }
+
 socket.on('draw',function(){
 	//window.confirm("Other player votes for a Draw!");
 	if(confirm("Other player votes for a Draw!")){
-		window.alert("hit confirm");
+		socket.emit("forfeit", playerData);
 	}
 })
 
