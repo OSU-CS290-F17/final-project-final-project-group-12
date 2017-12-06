@@ -70,11 +70,11 @@ function sendMessage() {
 }
 function joining(message) {
 	if (message) {
-		var liElement = document.createElement("li");
-		var textNode = document.createTextNode("Server says : " + message);
-		liElement.appendChild(textNode);
-		console.log(liElement);
-		document.getElementById("Mainchatbox").appendChild(liElement);
+		//var liElement = document.createElement("li");
+		//var textNode = document.createTextNode("Server says : " + message);
+		//liElement.appendChild(textNode);
+		//console.log(liElement);
+		//document.getElementById("Mainchatbox").appendChild(liElement);
 
 		socket.emit('emittedMessage', {author : playerData.name, text: message});
 		document.getElementById("Mainusermsg").value = '';
