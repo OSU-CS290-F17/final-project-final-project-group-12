@@ -82,11 +82,16 @@ function updateStatus(state) {
 function votetoDraw() {
 	socket.emit('drawrequest');
 }
+
 socket.on('draw',function(){
 	//window.confirm("Other player votes for a Draw!");
 	if(confirm("Other player votes for a Draw!")){
-		window.alert("hit confirm");
+		socket.emit('drawfullfillreq');
+		window.location = "http://localhost:3000";
 	}
+})
+socket.on('drawfullfill',function(){
+	window.location = "http://localhost:3000";
 })
 
 function sendMessage() {
@@ -101,7 +106,14 @@ function sendMessage() {
 
 function switchTurn(){
 	var turnMarker = document.getElementById("turn-marker");
-	turnMarker.classList.toggle("green-display");
+	if(turnMarker.classList.contains("green-display")){
+		turnMarker.classList.remove("green-display");
+		turnMarker.classList.add("red-display");
+	}
+	else{
+		turnMarker.classList.add("green-display");
+		turnMarker.classList.remove("red-display");
+	}
 }
 
 function putToken(event) {

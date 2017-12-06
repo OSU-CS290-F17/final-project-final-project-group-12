@@ -47,7 +47,7 @@ io.on('connection', function (socket) {
 								console.log("emitted");
 								socket.to(player.room).emit("newPlayer", player);
 							}
-						
+
 						db.close();
 					});
 				});
@@ -65,7 +65,7 @@ io.on('connection', function (socket) {
 	});
 	socket.on('emittedMessage', function(content) {
 		console.log(content)
-		io.in(player.room).emit('chatMessage', content);	
+		io.in(player.room).emit('chatMessage', content);
 	})
 	socket.on('putToken', function(content) {
 		console.log(content);
@@ -93,10 +93,9 @@ io.on('connection', function (socket) {
 				db.close();
 			}
 		})
-
-	})
+	}
 }
-});
+
 
 
 
