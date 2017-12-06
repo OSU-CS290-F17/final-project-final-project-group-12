@@ -3,14 +3,15 @@ var app = express();
 var server = require('http').Server(app);
 var handlebars = require('express-handlebars');
 var MongoClient = require('mongodb').MongoClient;
-var socketio = require('socket.io').sockets;
+//var socketio = require('socket.io').sockets;
 var urlDb = "mongodb://localhost:27017/mydb";
+var gameEngine = require("./game.js");
 //var io = require('socket.io').listen(server);
 
 
 var io = require('socket.io').listen(app.listen(3000, function() {
     console.log('server listening on port 3000');
-})); 
+}));
 
 MongoClient.connect(urlDb, function(err, db) {
   if (err) throw err;
@@ -18,23 +19,15 @@ MongoClient.connect(urlDb, function(err, db) {
     console.log(obj.result.n + " document(s) deleted");
 	for (let i=1; i <= 500; i++ ) {
 		db.collection("rooms").insertOne({numRoom : i, players_Number: 0, players: [], colors: [], board: [[], [],[],[],[],[],[]], turn: 1}, function(err, obj) {
-			//console.log(obj.result.n + "document(s) added");
-			
-		//console.log(i +" element updated");
 		});
 	}
 	for (let i=1; i <= 10; i++ ) {
 		db.collection("highscores").insertOne({name: "John Doe", score : i*500}, function(err2, obj2) {
 			console.log(obj2.result.n + "document(s) added");
-
-
-
-
-
 		});
 	}
 		//console.log(i +" element updated");
-	
+
 	db.close();
 	});
  });
@@ -46,30 +39,39 @@ io.on('connection', function (socket) {
 		socket.join(player.room);
 		console.log(player.name + " has just entered the room " + player.room);
 		addPlayer(player, function() {
-			MongoClient.connect(urlDb, function(err, db) {
-				db.collection("rooms").find({numRoom: parseInt(player.room)}).toArray(function(err, result) {
-					console.log(result[0]);
-					if (result[0].players_Number == 2) {
-						console.log("emitted");
-						socket.to(player.room).emit("newPlayer", player);
-					}
-					db.close();
-				});	
-			});
-		});	
+			if (player.room != 1)
+				MongoClient.connect(urlDb, function(err, db) {
+					db.collection("rooms").find({numRoom: parseInt(player.room)}).toArray(function(err, result) {
+						if (player.room != 1) {
+							console.log(result[0]);
+							if (result[0].players_Number == 2) {
+								console.log("emitted");
+								socket.to(player.room).emit("new Player", player);
+							}
+						}
+						db.close();
+					});
+				});
+		});
 	});
 	socket.on('disconnect', function() {
-		console.log(player.name + " has just left the room " + player.room);
-		removePlayer(player);
+		if (player) {
+			console.log(player.name + " has just left the room " + player.room);
+			socket.to(player.room).emit("disconnectedPlayer");
+			var content = {author: "Server", text: "The other player just disconnected !"};
+			socket.in(player.room).emit('chatMessage', content);
+			removePlayer(player);
+		}
 	});
 	socket.on('emittedMessage', function(content) {
 		console.log(content)
-		socket.in(player.room).emit('chatMessage', content);	
+		socket.in(player.room).emit('chatMessage', content);
 	})
 	socket.on('putToken', function(content) {
 		console.log(content);
 		addToken(content);
 	})
+
 	socket.on('forfeit', function(content) {
 		console.log(content.name, "has forfeit the game in room:", content.room);
 		socket.to(content.room).broadcast.emit('playerForfeit', content.name);
@@ -81,9 +83,29 @@ function addToken(settings) {
 	MongoClient.connect(urlDb, function(err,db) {
 		db.collection("rooms").find(query).toArray(function(err, result) {
 			return true;
+
+  socket.on('drawrequest', function(){
+    console.log("player wants a call a draw");
+    socket.in(player.room).emit('chatMessage', player.name + " votes to for a Draw!");
+    socket.broadcast.to(player.room).emit('draw')
+  })
+
+	function addToken(settings) {
+		var query = {numRoom: parseInt(settings.room)};
+		MongoClient.connect(urlDb, function(err,db) {
+			db.collection("rooms").find(query).toArray(function(err, result) {
+				if (result[0].board[settings.column].length < 7) {
+					console.log(result);
+					result[0].board[settings.column][result[0].board[settings.column].length] = result[0].players.indexOf(settings.player)+1;
+					db.collection("rooms").update(query, {$set: {board: result[0].board}});
+					socket.in(player.room).emit('newToken', {x : settings.column, color: result[0].colors[result[0].players.indexOf(settings.player)], y: result[0].board[settings.column].length-1});
+					db.close();
+				}
+			})
+
 		})
-	})
-}
+	}
+});
 
 function addPlayer(player, next) {
 	MongoClient.connect(urlDb, function(err, db) {
@@ -98,7 +120,7 @@ function addPlayer(player, next) {
 					console.log(result[0]);
 					db.close();
 					next();
-				});	
+				});
 			});
 		});
 	});
@@ -146,7 +168,7 @@ app.get('/', function(req, res, next) {
 			db.close();
 			context = {scores : highscores};
     		res.status(200).render('index.handlebars', context);
-		});	
+		});
 	})
 });
 
@@ -179,6 +201,6 @@ app.post("/four", function(req,res) {
 		    }
 			db.close();
 		});
-	
+
 	});
 });

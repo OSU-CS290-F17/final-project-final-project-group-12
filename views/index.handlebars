@@ -1,6 +1,6 @@
 
-  <body>
     {{>header}}
+
     <div id="content">
       <div id="settings" class="box">
         <div class="box-title">
@@ -56,13 +56,11 @@
       <div class ="box">
 			<div id="Mainwrapper">
             <div class="status"></div>
-                <input name="namemsg" type="text"  id="Mainnamemsg" value="Enter your Name" />
-                <input name="submitmsg" type="submit"  id="Mainsubmitmsg" value="Send" />
+                <input name="namemsg" type="text"  id="Mainnamemsg" placeholder="Enter your Name" />
+                <button type="button" onClick="setname();">Submit</button>
 	    			<div id="Mainchatbox"></div>
 
-	    			<form name="message" action="">
-	        			<textarea id="Mainusermsg" class="form-control" placeholder="Enter Message" size="63"></textarea>
-	    			</form>
+	        			<input type="text" id="Mainusermsg" placeholder="Enter Message" size="63"></textarea>
 			</div>
     </div>
 
@@ -70,11 +68,13 @@
     <div id="footer">
       <p>This is a footer</p>
     </div>
+    <script type="text/javascript" src="./index.js"></script>
     {{#if error}}
     <script>
       window.alert("{{text}}");
     </script>
     {{/if}}
     <script type="text/javascript" src="./randomColors.js"></script>
-  </body>
+    <script type="text/javascript" src="./index.js"></script>
+  </body> 
 </html>

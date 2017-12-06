@@ -8,19 +8,11 @@ socket.emit('player', playerData);
 // event listeners
 document.getElementById("forfeit-button").addEventListener("click", sendForfeit);
 document.getElementById("submitmsg").addEventListener("click", sendMessage);
+document.getElementById("draw-button").addEventListener("click", votetoDraw);
 document.getElementById("usermsg").addEventListener("keypress", pressEnter);
+
 for (button of document.getElementsByClassName("chip-button")) {
 	button.addEventListener("click", putToken);
-}
-
-var chipArray = document.querySelectorAll('.chip-button');
-
-for(var i = 0; i < chipArray.length; i++){
-	chipArray[i].addEventListener('click', function(event){
-		console.log("== Column pressed: ", i);
-		var columnArray = document.querySelectorAll('.board-column');
-		chipFall(columnArray[i]);
-	});
 }
 
 socket.on('newPlayer', function(newPlayerData) {
@@ -36,7 +28,7 @@ socket.on('chatMessage', function(content) {
 	var liElement = document.createElement("li");
 	var textNode = document.createTextNode(content.author + " says : " + content.text);
 	liElement.appendChild(textNode);
-	console.log(liElement);	
+	console.log(liElement);
 	document.getElementById("chatbox").appendChild(liElement);
 })
 
@@ -45,6 +37,7 @@ socket.on('fullColumn', function(content) {
 	column.style.background.Color="grey";
 	column.removeEventListener("click", putToken);
 })
+
 
 socket.on('playerForfeit', function(content) {
 	window.alert(content + ' has forfeit the game. Returning you to the main page.');
@@ -55,6 +48,16 @@ function sendForfeit() {
 	socket.emit("forfeit", playerData);
 	window.location = "http://localhost:3000";
 }
+socket.on('disconnectedPlayer', function() {
+	updateStatus(0);
+})
+
+socket.on('newToken', function(content) {
+	//Add a function to drop a token here
+	console.log(content);
+	document.getElementById("board").children[content.x].children[5-content.y].style.backgroundColor = content.color;
+})
+
 
 function pressEnter(event) {
     if (event.which == 13 || event.keyCode == 13) {
@@ -69,10 +72,21 @@ function updateStatus(state) {
 		document.getElementById("player-two").children[1].innerText = "Connected";
 		document.getElementById("player-two").children[1].style.color = "green";
 	} else {
+		document.getElementById("player-two").children[0].innerText = "[...]";
 		document.getElementById("player-two").children[1].innerText = "Not connected";
 		document.getElementById("player-two").children[1].style.color = "red";
 	}
 }
+
+function votetoDraw() {
+	socket.emit('drawrequest');
+}
+socket.on('draw',function(){
+	//window.confirm("Other player votes for a Draw!");
+	if(confirm("Other player votes for a Draw!")){
+		window.alert("hit confirm");
+	}
+})
 
 function sendMessage() {
 	var message = document.getElementById("usermsg").value;
@@ -80,9 +94,9 @@ function sendMessage() {
 		var liElement = document.createElement("li");
 		var textNode = document.createTextNode(playerData.name + " says : " + message);
 		liElement.appendChild(textNode);
-		console.log(liElement);	
+		console.log(liElement);
 		document.getElementById("chatbox").appendChild(liElement);
-		
+
 		socket.emit('emittedMessage', {author : playerData.name, text: message});
 		document.getElementById("usermsg").value = '';
 	} else {
@@ -90,23 +104,14 @@ function sendMessage() {
 	}
 }
 
-function putToken(button) {
-	var content = playerData;
-	var token = parseInt(button.id);
-	socket.emit('putToken', {token : token, player : player.name});
+function switchTurn(){
+	var turnMarker = document.getElementById("turn-marker");
+	turnMarker.classList.toggle("green-display");
 }
 
-function dropAChip(event, columnNumber){
-	console.log("== Column pressed: ", columnNumber);
-	var columnArray = document.querySelectorAll('.board-column');
-	chipFall(columnArray[columnNumber]);
-
-
-}
-
-function chipFall(columnObject){
-	var singleColumn = columnObject.querySelectorAll('.chip-slot');
-	var objectToChange = singleColumn[singleColumn.length - 1];
-	objectToChange.classList.add('chip-{{1 or 2 here}}');
-	objectToChange.classList.remove('chip-slot');
+function putToken(event) {
+	var token = parseInt(event.target.id);
+	// console.log(event.target.id);
+	switchTurn();
+	socket.emit('putToken', {column : token, player : playerData.name, room: playerData.room});
 }
