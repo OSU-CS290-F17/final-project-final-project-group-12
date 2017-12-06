@@ -84,17 +84,18 @@ io.on('connection', function (socket) {
 	function addToken(settings) {
 		var query = {numRoom: parseInt(settings.room)};
 		MongoClient.connect(urlDb, function(err,db) {
-		db.collection("rooms").find(query).toArray(function(err, result) {
-			if (result[0].board[settings.column].length < 7) {
-				console.log(result);
-				result[0].board[settings.column][result[0].board[settings.column].length] = result[0].players.indexOf(settings.player)+1;
-				db.collection("rooms").update(query, {$set: {board: result[0].board}});
-				io.in(player.room).emit('newToken', {x : settings.column, color: result[0].colors[result[0].players.indexOf(settings.player)], y: result[0].board[settings.column].length-1});
-				db.close();
-			}
-		})
+			db.collection("rooms").find(query).toArray(function(err, result) {
+				if (result[0].board[settings.column].length < 7) {
+					console.log(result);
+					result[0].board[settings.column][result[0].board[settings.column].length] = result[0].players.indexOf(settings.player)+1;
+					db.collection("rooms").update(query, {$set: {board: result[0].board}});
+					io.in(player.room).emit('newToken', {x : settings.column, color: result[0].colors[result[0].players.indexOf(settings.player)], y: result[0].board[settings.column].length-1});
+					db.close();
+				}
+			});
+		});
 	}
-}
+});
 
 
 
