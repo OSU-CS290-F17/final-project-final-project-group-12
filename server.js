@@ -79,10 +79,10 @@ io.on('connection', function (socket) {
   socket.on('drawrequest', function(){
     console.log("player wants a call a draw");
     socket.in(player.room).emit('chatMessage', {author:player.name, text:"votes for a Draw!"});
-    socket.broadcast.to(player.room).emit('draw')
+    socket.broadcast.to(player.room).emit('draw');
   })
   socket.on('drawfullfillreq', function(){
-    socket.broadcast.to(player.room).emit('drawfullfill')
+    socket.broadcast.to(player.room).emit('drawfullfill');
   })
 	function addToken(settings) {
 		var query = {numRoom: parseInt(settings.room)};
