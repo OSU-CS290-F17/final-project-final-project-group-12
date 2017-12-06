@@ -36,11 +36,11 @@ function playAgame(){
 			[0, 0, 0, 0, 0, 0],
 			[0, 0, 0, 0, 0, 0],
 			[0, 0, 0, 0, 0, 0]
-		]
+		];
 	while(turn < 42){
-		board = addMove(board, turn%2 + 1); //addMove will add a move to the board, where we will give addMove the input board, player (the player whose turn it is);
+		board = addMove(board, turn%2 + 1); // addMove will add a move to the board, where we will give addMove the input board, player (the player whose turn it is);
 		
-		var winner = checkForWin(board);
+		var winner = checkForWin(board); // Checks for a win on the board, and returns the number player if there is a win, otherwise returns zero.
 		if(winner)
 			return winner;
 
@@ -50,8 +50,8 @@ function playAgame(){
 }
 
 function addMove(board, player){
-	
 
+	// The variable board is modifed so that the position on the board that the player made is added.
 
 	return board;
 }
