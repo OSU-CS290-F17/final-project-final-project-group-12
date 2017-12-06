@@ -119,5 +119,6 @@ function switchTurn(){
 function putToken(event) {
 	var token = parseInt(event.target.id);
 	// console.log(event.target.id);
+	console.log("lol");
 	socket.emit('putToken', {column : token, player : playerData.name, room: playerData.room});
 }

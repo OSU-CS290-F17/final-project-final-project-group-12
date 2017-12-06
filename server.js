@@ -76,39 +76,28 @@ io.on('connection', function (socket) {
 		console.log(content.name, "has forfeit the game in room:", content.room);
 		socket.to(content.room).broadcast.emit('playerForfeit', content.name);
 	})
-
-    socket.on('drawrequest', function(){
-    console.log("player wants a call a draw");
-    var text = player.name + " votes for a Draw!";
-    socket.in(player.room).emit('chatMessage', {author:player.name, text:text});
-    socket.broadcast.to(player.room).emit('draw')
-  })
-});
-
-function addToken(settings) {
-	var query = {numRoom: parseInt(settings.room)};
-	MongoClient.connect(urlDb, function(err,db) {
-		db.collection("rooms").find(query).toArray(function(err, result) {
-			return true;
-		});
-	})
-
+	  socket.on('drawrequest', function(){
+	    console.log("player wants a call a draw");
+	    socket.in(player.room).emit('chatMessage', player.name + " votes to for a Draw!");
+	    socket.broadcast.to(player.room).emit('draw')
+  	})
 	function addToken(settings) {
 		var query = {numRoom: parseInt(settings.room)};
 		MongoClient.connect(urlDb, function(err,db) {
-			db.collection("rooms").find(query).toArray(function(err, result) {
-				if (result[0].board[settings.column].length < 7) {
-					console.log(result);
-					result[0].board[settings.column][result[0].board[settings.column].length] = result[0].players.indexOf(settings.player)+1;
-					db.collection("rooms").update(query, {$set: {board: result[0].board}});
-					io.in(player.room).emit('newToken', {x : settings.column, color: result[0].colors[result[0].players.indexOf(settings.player)], y: result[0].board[settings.column].length-1});
-					db.close();
-				}
-			})
-
+		db.collection("rooms").find(query).toArray(function(err, result) {
+			if (result[0].board[settings.column].length < 7) {
+				console.log(result);
+				result[0].board[settings.column][result[0].board[settings.column].length] = result[0].players.indexOf(settings.player)+1;
+				db.collection("rooms").update(query, {$set: {board: result[0].board}});
+				io.in(player.room).emit('newToken', {x : settings.column, color: result[0].colors[result[0].players.indexOf(settings.player)], y: result[0].board[settings.column].length-1});
+				db.close();
+			}
 		})
 	}
 }
+
+
+
 
 function addPlayer(player, next) {
 	MongoClient.connect(urlDb, function(err, db) {
