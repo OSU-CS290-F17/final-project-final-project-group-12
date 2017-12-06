@@ -86,7 +86,7 @@ function votetoDraw() {
 socket.on('draw',function(){
 	//window.confirm("Other player votes for a Draw!");
 	if(confirm("Other player votes for a Draw!")){
-		socket.emit("forfeit", playerData);
+		sendForfeit();
 	}
 })
 
