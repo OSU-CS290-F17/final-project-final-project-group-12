@@ -93,7 +93,6 @@ h1 {
 #turn-marker {
 	float: left;
 	display: inline;
-	background-color: green;
 	border-radius: 25px;
 	width: 90%;
 	margin: 5%;
@@ -151,6 +150,14 @@ h1 {
 .chip-button:hover {
 	background-color: green;
 	font-weight: bold;
+}
+
+.red-display{
+	background-color: red;
+}
+
+.green-display{
+	background-color: green;
 }
 
 .chip-button:focus {

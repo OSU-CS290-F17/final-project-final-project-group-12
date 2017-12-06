@@ -5,18 +5,8 @@ socket.emit('player', playerData);
 document.getElementById("submitmsg").addEventListener("click", sendMessage);
 document.getElementById("usermsg").addEventListener("keypress", pressEnter);
 for (button of document.getElementsByClassName("chip-button")) {
-	button.addEventListener("click", putToken);
+	button.addEventListener("click", putToken(event));
 }
-
-var chipArray = document.querySelectorAll('.chip-button');
-
-// for(var i = 0; i < chipArray.length; i++){
-// 	chipArray[i].addEventListener('click', function(event){
-// 		console.log("== Column pressed: ", i);
-// 		var columnArray = document.querySelectorAll('.board-column');
-// 		chipFall(columnArray[i]);
-// 	});
-// }
 
 socket.on('newPlayer', function(newPlayerData) {
 	console.log(newPlayerData);
@@ -86,7 +76,14 @@ function sendMessage() {
 	}
 }
 
+function switchTurn(){
+	var turnMarker = document.getElementById("turn-marker");
+	turnMarker.classList.toggle("green-display");	
+}
+
+
 function putToken(event) {
 	var token = parseInt(event.target.id);
+	switchTurn();
 	socket.emit('putToken', {column : token, player : playerData.name, room: playerData.room});
 }
