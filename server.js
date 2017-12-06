@@ -12,26 +12,25 @@ var io = require('socket.io').listen(app.listen(3000, function() {
     console.log('server listening on port 3000');
 }));
 
-
-
 MongoClient.connect(urlDb, function(err, db) {
-  if (err) throw err;
-  db.collection("rooms").deleteMany({}, function(err, obj) {
-    console.log(obj.result.n + " document(s) deleted");
-	for (let i=1; i <= 500; i++ ) {
-		db.collection("rooms").insertOne({numRoom : i, players_Number: 0, players: [], colors: [], board: [[], [],[],[],[],[],[]], turn: 1}, function(err, obj) {
-		});
-	}
-	for (let i=1; i <= 10; i++ ) {
-		db.collection("highscores").insertOne({name: "John Doe", score : i*500}, function(err2, obj2) {
-			console.log(obj2.result.n + "document(s) added");
-		});
-	}
-		//console.log(i +" element updated");
-	
-	db.close();
-	});
- });
+	if (err) throw err;
+	db.collection("rooms").deleteMany({}, function(err, obj) {
+	  console.log(obj.result.n + " document(s) deleted");
+	  for (let i=1; i <= 500; i++ ) {
+		  db.collection("rooms").insertOne({numRoom : i, players_Number: 0, players: [], colors: [], board: [[], [],[],[],[],[],[]], turn: 1}, function(err, obj) {
+		  });
+	  }
+	  for (let i=1; i <= 10; i++ ) {
+		  db.collection("highscores").insertOne({name: "John Doe", score : i*500}, function(err2, obj2) {
+			  console.log(obj2.result.n + "document(s) added");
+		  });
+	  }
+		  //console.log(i +" element updated");
+	  
+	  db.close();
+	  });
+   });
+
 
 io.on('connection', function (socket) {
 	var player;
