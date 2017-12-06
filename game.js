@@ -1,6 +1,11 @@
 var checkFor = require("./checkforwin.js");
 var reg = require("./roomboard.js");
 
+module.exports = {
+	playAgame: playAgame
+}
+
+
 /**
 Game
 
@@ -57,6 +62,6 @@ function addMove(board, player){
 	// The variable board is modifed so that the position on the board that the player made is added.
 	// We need to find a way to get columnNumber...
 	var columnNumber = 0;
-	// board = reg.registerMove(player, columnNumber, board); // Registers the move and adds it to the board.
+	board = reg.registerMove(player, columnNumber, board); // Registers the move and adds it to the board.
 	return board;
 }
