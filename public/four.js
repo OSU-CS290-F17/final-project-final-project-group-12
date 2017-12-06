@@ -40,8 +40,9 @@ socket.on('fullColumn', function(content) {
 
 
 socket.on('playerForfeit', function(content) {
-	window.alert(content + ' has forfeit the game. Returning you to the main page.');
-	window.location = "http://localhost:3000";
+	window.alert(content + ' has forfeit the game. Game over.');
+	socket.disconnect();
+	updateStatus(0);
 })
 
 function sendForfeit() {
