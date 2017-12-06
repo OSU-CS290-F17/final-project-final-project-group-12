@@ -42,9 +42,9 @@ function pressEnter(event) {
     		sendMessage();
     		return true;
 			}
-			//else{
-				//window.alert("Enter a name");
-			//}
+			else{
+				window.alert("Enter a name");
+			}
     }
     return false;
 };
@@ -64,9 +64,9 @@ function sendMessage() {
 
 		socket.emit('emittedMessage', {author : playerData.name, text: message});
 		document.getElementById("Mainusermsg").value = '';
-	} else {
-		window.alert("Input is empty !");
-	}
+	} //else {
+		//window.alert("Input is empty !");
+	//}
 }
 function joining(message) {
 	if (message) {
@@ -78,7 +78,7 @@ function joining(message) {
 
 		socket.emit('emittedMessage', {author : playerData.name, text: message});
 		document.getElementById("Mainusermsg").value = '';
-	} else {
-		window.alert("Input is empty !");
-	}
+	}// else {
+		//window.alert("Input is empty !");
+	//}
 }
