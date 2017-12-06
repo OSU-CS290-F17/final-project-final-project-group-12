@@ -5,6 +5,7 @@ var handlebars = require('express-handlebars');
 var MongoClient = require('mongodb').MongoClient;
 //var socketio = require('socket.io').sockets;
 var urlDb = "mongodb://localhost:27017/mydb";
+var gameEngine = require('./game.js');
 //var io = require('socket.io').listen(server);
 
 
@@ -181,6 +182,6 @@ app.post("/four", function(req,res) {
 		    }
 			db.close();
 		});
-	
+
 	});
 });
