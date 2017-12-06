@@ -79,7 +79,14 @@ function sendMessage() {
 
 function switchTurn(){
 	var turnMarker = document.getElementById("turn-marker");
-	turnMarker.classList.toggle("green-display");	
+	if(turnMarker.classList.contains("green-display")){
+		turnMarker.classList.remove("green-display");
+		turnMarker.classList.add("red-display");
+	}
+	else{
+		turnMarker.classList.add("green-display");
+		turnMarker.classList.remove("red-display");
+	}
 }
 
 function putToken(event) {

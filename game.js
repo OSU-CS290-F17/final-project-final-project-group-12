@@ -2,7 +2,9 @@ var checkFor = require("./checkforwin.js");
 var reg = require("./roomboard.js");
 
 module.exports = {
-	playAgame: playAgame
+	playAgame: playAgame,
+	reg: reg,
+	checkFor: checkFor
 }
 
 
@@ -31,8 +33,6 @@ Functions
         Emit lastmove to the clients for rendering
 
  */
-
-playAgame();
 
 function playAgame(){ //This function should be called at the start of every game.
 	var turn = 0;
