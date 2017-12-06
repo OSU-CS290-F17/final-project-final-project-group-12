@@ -47,7 +47,7 @@ io.on('connection', function (socket) {
 								console.log("emitted");
 								socket.to(player.room).emit("newPlayer", player);
 							}
-						
+
 						db.close();
 					});
 				});
@@ -65,7 +65,7 @@ io.on('connection', function (socket) {
 	});
 	socket.on('emittedMessage', function(content) {
 		console.log(content)
-		io.in(player.room).emit('chatMessage', content);	
+		io.in(player.room).emit('chatMessage', content);
 	})
 	socket.on('putToken', function(content) {
 		console.log(content);
@@ -76,6 +76,13 @@ io.on('connection', function (socket) {
 		console.log(content.name, "has forfeit the game in room:", content.room);
 		socket.to(content.room).broadcast.emit('playerForfeit', content.name);
 	})
+
+    socket.on('drawrequest', function(){
+    console.log("player wants a call a draw");
+    var text = player.name + " votes for a Draw!";
+    socket.in(player.room).emit('chatMessage', {author:playerData.name, text:text});
+    socket.broadcast.to(player.room).emit('draw')
+  })
 });
 
 function addToken(settings) {
@@ -84,12 +91,7 @@ function addToken(settings) {
 		db.collection("rooms").find(query).toArray(function(err, result) {
 			return true;
 		});
-	});
-    socket.on('drawrequest', function(){
-    console.log("player wants a call a draw");
-    socket.in(player.room).emit('chatMessage', player.name + " votes to for a Draw!");
-    socket.broadcast.to(player.room).emit('draw')
-  })
+	})
 
 	function addToken(settings) {
 		var query = {numRoom: parseInt(settings.room)};
