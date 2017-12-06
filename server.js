@@ -77,12 +77,16 @@ io.on('connection', function (socket) {
 		socket.to(content.room).broadcast.emit('playerForfeit', content.name);
 	})
 
-    socket.on('drawrequest', function(){
+  socket.on('drawrequest', function(){
     console.log("player wants a call a draw");
     var text = player.name + " votes for a Draw!";
     socket.in(player.room).emit('chatMessage', {author:player.name, text:text});
     socket.broadcast.to(player.room).emit('draw')
   })
+  socket.on('drawfullfillreq', function(){
+    socket.broadcast.to(player.room).emit('drawfullfill');
+  })
+
 });
 
 function addToken(settings) {
