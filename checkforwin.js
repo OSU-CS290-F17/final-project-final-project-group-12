@@ -1,3 +1,7 @@
+// This lets you export the checkForWin function.
+module.exports = {
+	checkForWin: checkForWin
+}
 
 /*
 
@@ -49,7 +53,6 @@ function checkForWin(boardstate){
 			}
 		}
 	}
-	console.log(result);
 	return result;
 }
 

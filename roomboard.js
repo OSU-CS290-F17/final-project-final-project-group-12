@@ -1,3 +1,8 @@
+// Lets you export this function.
+
+module.exports = {
+	registerMove: registerMove
+}
 
 /*
 boardstate shoudld be an array where:
