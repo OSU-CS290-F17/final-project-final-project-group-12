@@ -3,6 +3,7 @@ var playerData = {name: player.dataset.name, room: player.dataset.room, color: p
 var socket = io.connect('http://localhost:3000');
 socket.emit('player', playerData);
 document.getElementById("submitmsg").addEventListener("click", sendMessage);
+document.getElementById("draw-button").addEventListener("click", votetoDraw);
 document.getElementById("usermsg").addEventListener("keypress", pressEnter);
 
 for (button of document.getElementsByClassName("chip-button")) {
@@ -22,7 +23,7 @@ socket.on('chatMessage', function(content) {
 	var liElement = document.createElement("li");
 	var textNode = document.createTextNode(content.author + " says : " + content.text);
 	liElement.appendChild(textNode);
-	console.log(liElement);	
+	console.log(liElement);
 	document.getElementById("chatbox").appendChild(liElement);
 })
 
@@ -39,7 +40,7 @@ socket.on('disconnectedPlayer', function() {
 socket.on('newToken', function(content) {
 	//Add a function to drop a token here
 	console.log(content);
-	document.getElementById("board").children[content.x].children[5-content.y].style.backgroundColor = content.color;	
+	document.getElementById("board").children[content.x].children[5-content.y].style.backgroundColor = content.color;
 })
 
 function pressEnter(event) {
@@ -61,15 +62,22 @@ function updateStatus(state) {
 	}
 }
 
+function votetoDraw() {
+	socket.emit('drawrequest');
+}
+socket.on('draw',function(){
+	window.alert("draw has been requested");
+})
+
 function sendMessage() {
 	var message = document.getElementById("usermsg").value;
 	if (message) {
 		var liElement = document.createElement("li");
 		var textNode = document.createTextNode(playerData.name + " says : " + message);
 		liElement.appendChild(textNode);
-		console.log(liElement);	
+		console.log(liElement);
 		document.getElementById("chatbox").appendChild(liElement);
-		
+
 		socket.emit('emittedMessage', {author : playerData.name, text: message});
 		document.getElementById("usermsg").value = '';
 	} else {
@@ -79,7 +87,7 @@ function sendMessage() {
 
 function switchTurn(){
 	var turnMarker = document.getElementById("turn-marker");
-	turnMarker.classList.toggle("green-display");	
+	turnMarker.classList.toggle("green-display");
 }
 
 function putToken(event) {

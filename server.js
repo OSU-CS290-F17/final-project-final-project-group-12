@@ -71,9 +71,10 @@ io.on('connection', function (socket) {
 		console.log(content);
 		addToken(content);
 	})
-  socket.on('Forfeit', function(content){
-    console.log("player wants a forfeit");
-    socket.in(player.room).emit('chatMessage', player.name + " votes to forfeit!");
+  socket.on('drawrequest', function(){
+    console.log("player wants a call a draw");
+    socket.in(player.room).emit('chatMessage', player.name + " votes to for a Draw!");
+    socket.broadcast.to(player.room).emit('draw')
   })
 
 	function addToken(settings) {
