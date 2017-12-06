@@ -86,8 +86,12 @@ function votetoDraw() {
 socket.on('draw',function(){
 	//window.confirm("Other player votes for a Draw!");
 	if(confirm("Other player votes for a Draw!")){
-		socket.emit("forfeit", playerData);
+		socket.emit('drawfullfillreq');
+		window.location = "http://localhost:3000";
 	}
+})
+socket.on('drawfullfill',function(){
+	window.location = "http://localhost:3000";
 })
 
 function sendMessage() {

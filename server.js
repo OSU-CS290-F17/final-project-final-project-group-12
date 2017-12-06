@@ -80,7 +80,7 @@ io.on('connection', function (socket) {
     socket.on('drawrequest', function(){
     console.log("player wants a call a draw");
     var text = player.name + " votes for a Draw!";
-    socket.in(player.room).emit('chatMessage', {author:playerData.name, text:text});
+    socket.in(player.room).emit('chatMessage', {author:player.name, text:text});
     socket.broadcast.to(player.room).emit('draw')
   })
 });
