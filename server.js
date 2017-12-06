@@ -84,7 +84,8 @@ function addToken(settings) {
 		db.collection("rooms").find(query).toArray(function(err, result) {
 			return true;
 		});
-  socket.on('drawrequest', function(){
+	});
+    socket.on('drawrequest', function(){
     console.log("player wants a call a draw");
     socket.in(player.room).emit('chatMessage', player.name + " votes to for a Draw!");
     socket.broadcast.to(player.room).emit('draw')
@@ -105,7 +106,7 @@ function addToken(settings) {
 
 		})
 	}
-});
+}
 
 function addPlayer(player, next) {
 	MongoClient.connect(urlDb, function(err, db) {
