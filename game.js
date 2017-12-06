@@ -44,7 +44,7 @@ function playAgame(){ //This function should be called at the start of every gam
 	while(turn < 42){ //42 is the maximum possible number of moves until a draw.
 		board = addMove(board, turn%2 + 1); // addMove will add a move to the board, where we will give addMove the input board, player (the player whose turn it is);
 		
-		var winner = checkFor.checkForWin(board); // Checks for a win on the board, and returns the number player if there is a win, otherwise returns zero.
+		// var winner = checkFor.checkForWin(board); // Checks for a win on the board, and returns the number player if there is a win, otherwise returns zero.
 		if(winner)
 			return winner;
 		turn = turn + 1;
