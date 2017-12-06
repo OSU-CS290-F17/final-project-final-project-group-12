@@ -9,8 +9,8 @@ var urlDb = "mongodb://localhost:27017/mydb";
 //var io = require('socket.io').listen(server);
 
 
-var io = require('socket.io').listen(app.listen(3000, function() {
-    console.log('server listening on port 3000');
+var io = require('socket.io').listen(app.listen(3111, function() {
+    console.log('server listening on port 3111');
 }));
 
 MongoClient.connect(urlDb, function(err, db) {

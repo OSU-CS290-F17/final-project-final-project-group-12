@@ -12,7 +12,7 @@ document.getElementById("draw-button").addEventListener("click", votetoDraw);
 document.getElementById("usermsg").addEventListener("keypress", pressEnter);
 
 for (button of document.getElementsByClassName("chip-button")) {
-	button.addEventListener("click", putToken);
+	button.addEventListener("click", putToken(event));
 }
 
 socket.on('newPlayer', function(newPlayerData) {
