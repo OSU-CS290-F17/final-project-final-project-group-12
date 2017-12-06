@@ -48,6 +48,7 @@ function sendForfeit() {
 	socket.emit("forfeit", playerData);
 	window.location = "http://localhost:3000";
 }
+
 socket.on('disconnectedPlayer', function() {
 	updateStatus(0);
 })
@@ -91,7 +92,7 @@ socket.on('draw', function() {
 	}
 });
 
-socket.on('drawfullfill',function(){
+socket.on('drawfullfill', function(){
 	window.location = "http://localhost:3000";
 });
 
