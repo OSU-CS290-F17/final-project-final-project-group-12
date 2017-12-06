@@ -23,3 +23,35 @@ Functions
         Emit lastmove to the clients for rendering
 
  */
+
+
+function playAgame(){
+	var turn = 0;
+	var board = 
+		[
+			[0, 0, 0, 0, 0, 0],
+			[0, 0, 0, 0, 0, 0],
+			[0, 0, 0, 0, 0, 0],
+			[0, 0, 0, 0, 0, 0],
+			[0, 0, 0, 0, 0, 0],
+			[0, 0, 0, 0, 0, 0],
+			[0, 0, 0, 0, 0, 0]
+		]
+	while(turn < 42){
+		board = addMove(board, turn%2 + 1); //addMove will add a move to the board, where we will give addMove the input board, player (the player whose turn it is);
+		
+		var winner = checkForWin(board);
+		if(winner)
+			return winner;
+
+
+	}
+	return 0; // 42 moves have been made and there is no winner, therefore this game is a draw. Return zero.
+}
+
+function addMove(board, player){
+	
+
+
+	return board;
+}
