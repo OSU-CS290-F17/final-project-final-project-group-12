@@ -45,8 +45,8 @@ function playAgame(){ //This function should be called at the start of every gam
 		board = addMove(board, turn%2 + 1); // addMove will add a move to the board, where we will give addMove the input board, player (the player whose turn it is);
 		
 		// var winner = checkFor.checkForWin(board); // Checks for a win on the board, and returns the number player if there is a win, otherwise returns zero.
-		if(winner)
-			return winner;
+		//if(winner)
+		//	return winner;
 		turn = turn + 1;
 	}
 	return 0; // 42 moves have been made and there is no winner, therefore this game is a draw. Return zero.
