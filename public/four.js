@@ -5,10 +5,7 @@ socket.emit('player', playerData);
 document.getElementById("submitmsg").addEventListener("click", sendMessage);
 document.getElementById("usermsg").addEventListener("keypress", pressEnter);
 for (button of document.getElementsByClassName("chip-button")) {
-<<<<<<< HEAD
 	button.addEventListener("click", putToken(event));
-=======
->>>>>>> 82d0d7038958e816348d97450f4717399b3df613
 }
 
 socket.on('newPlayer', function(newPlayerData) {
