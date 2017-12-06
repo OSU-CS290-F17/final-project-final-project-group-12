@@ -85,7 +85,7 @@ io.on('connection', function (socket) {
 		var query = {numRoom: parseInt(settings.room)};
 		MongoClient.connect(urlDb, function(err,db) {
 			db.collection("rooms").find(query).toArray(function(err, result) {
-				if (result[0].board[settings.column].length < 7) {
+				if (result[0].board[settings.column].length < 6) {
 					console.log(result);
 					result[0].board[settings.column][result[0].board[settings.column].length] = result[0].players.indexOf(settings.player)+1;
 					db.collection("rooms").update(query, {$set: {board: result[0].board}});
