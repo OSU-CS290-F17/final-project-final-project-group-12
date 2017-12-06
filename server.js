@@ -70,10 +70,14 @@ io.on('connection', function (socket) {
 		console.log(content);
 		addToken(content);
 	})
+	socket.on('forfeit', function(content) {
+		console.log(content.name, "has forfeit the game in room:", content.room);
+		socket.to(content.room).broadcast.emit('playerForfeit', content.name);
+	})
 });
 
 function addToken(settings) {
-	var query = {numRoom: parseInt(player.room)};
+	var query = {numRoom: parseInt(settings.room)};
 	MongoClient.connect(urlDb, function(err,db) {
 		db.collection("rooms").find(query).toArray(function(err, result) {
 			return true;

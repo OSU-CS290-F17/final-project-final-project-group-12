@@ -2,6 +2,11 @@ var player = document.getElementById("player-one");
 var playerData = {name: player.dataset.name, room: player.dataset.room, color: player.dataset.color};
 var socket = io.connect('http://localhost:3000');
 socket.emit('player', playerData);
+
+
+
+// event listeners
+document.getElementById("forfeit-button").addEventListener("click", sendForfeit);
 document.getElementById("submitmsg").addEventListener("click", sendMessage);
 document.getElementById("usermsg").addEventListener("keypress", pressEnter);
 for (button of document.getElementsByClassName("chip-button")) {
@@ -40,6 +45,16 @@ socket.on('fullColumn', function(content) {
 	column.style.background.Color="grey";
 	column.removeEventListener("click", putToken);
 })
+
+socket.on('playerForfeit', function(content) {
+	window.alert(content + ' has forfeit the game. Returning you to the main page.');
+	window.location = "http://localhost:3000";
+})
+
+function sendForfeit() {
+	socket.emit("forfeit", playerData);
+	window.location = "http://localhost:3000";
+}
 
 function pressEnter(event) {
     if (event.which == 13 || event.keyCode == 13) {
