@@ -29,6 +29,7 @@ function setname(){
 document.getElementById("Mainusermsg").addEventListener("keypress", pressEnter);
 
 socket.on('chatMessage', function(content) {
+	console.log("lol");
 	var liElement = document.createElement("li");
 	var textNode = document.createTextNode(content.author + " says : " + content.text);
 	liElement.appendChild(textNode);
@@ -41,8 +42,7 @@ function pressEnter(event) {
 			if(playerData != ''){
     		sendMessage();
     		return true;
-			}
-			else{
+			} else{
 				window.alert("Enter a name");
 			}
     }
@@ -54,13 +54,6 @@ function pressEnter(event) {
 function sendMessage() {
 	var message = document.getElementById("Mainusermsg").value;
 	if (message) {
-
-		//commented out because chat is duplicated when server responds to the chat message
-		// var liElement = document.createElement("li");
-		// var textNode = document.createTextNode(playerData.name + " says : " + message);
-		// liElement.appendChild(textNode);
-		// console.log(liElement);
-		// document.getElementById("Mainchatbox").appendChild(liElement);
 
 		socket.emit('emittedMessage', {author : playerData.name, text: message});
 		document.getElementById("Mainusermsg").value = '';

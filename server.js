@@ -3,7 +3,7 @@ var app = express();
 var server = require('http').Server(app);
 var handlebars = require('express-handlebars');
 var MongoClient = require('mongodb').MongoClient;
-var socketio = require('socket.io').sockets;
+//var socketio = require('socket.io').sockets;
 var urlDb = "mongodb://localhost:27017/mydb";
 var gameEngine = require("./game.js");
 //var io = require('socket.io').listen(server);
@@ -14,24 +14,23 @@ var io = require('socket.io').listen(app.listen(3000, function() {
 }));
 
 MongoClient.connect(urlDb, function(err, db) {
-	if (err) throw err;
-	db.collection("rooms").deleteMany({}, function(err, obj) {
-	  console.log(obj.result.n + " document(s) deleted");
-	  for (let i=1; i <= 500; i++ ) {
-		  db.collection("rooms").insertOne({numRoom : i, players_Number: 0, players: [], colors: [], board: [[], [],[],[],[],[],[]], turn: 1}, function(err, obj) {
-		  });
-	  }
-	  for (let i=1; i <= 10; i++ ) {
-		  db.collection("highscores").insertOne({name: "John Doe", score : i*500}, function(err2, obj2) {
-			  console.log(obj2.result.n + "document(s) added");
-		  });
-	  }
-		  //console.log(i +" element updated");
-	  
-	  db.close();
-	  });
-   });
-
+  if (err) throw err;
+  db.collection("rooms").deleteMany({}, function(err, obj) {
+    console.log(obj.result.n + " document(s) deleted");
+	for (let i=1; i <= 500; i++ ) {
+		db.collection("rooms").insertOne({numRoom : i, players_Number: 0, players: [], colors: [], board: [[], [],[],[],[],[],[]], turn: 1}, function(err, obj) {
+		});
+	}
+	for (let i=1; i <= 10; i++ ) {
+		db.collection("highscores").insertOne({name: "John Doe", score : i*500}, function(err2, obj2) {
+			console.log(obj2.result.n + "document(s) added");
+		});
+	}
+		//console.log(i +" element updated");
+		
+	db.close();
+	});
+ });
 
 io.on('connection', function (socket) {
 	var player;
@@ -40,26 +39,29 @@ io.on('connection', function (socket) {
 		socket.join(player.room);
 		console.log(player.name + " has just entered the room " + player.room);
 		addPlayer(player, function() {
-			MongoClient.connect(urlDb, function(err, db) {
-				db.collection("rooms").find({numRoom: parseInt(player.room)}).toArray(function(err, result) {
-					console.log(result[0]);
-					if (result[0].players_Number == 2) {
-						console.log("emitted");
-						socket.to(player.room).emit("newPlayer", player);
-					}
-					db.close();
-				});	
-			});
+			if (player.room != 1)
+				MongoClient.connect(urlDb, function(err, db) {
+					db.collection("rooms").find({numRoom: parseInt(player.room)}).toArray(function(err, result) {
+						if (player.room != 1) {
+							console.log(result[0]);
+							if (result[0].players_Number == 2) {
+								console.log("emitted");
+								socket.to(player.room).emit("new Player", player);
+							}
+						}
+						db.close();
+					});	
+				});
 		});	
 	});
 	socket.on('disconnect', function() {
-		//if (player) {
+		if (player) {
 			console.log(player.name + " has just left the room " + player.room);
 			socket.to(player.room).emit("disconnectedPlayer");
 			var content = {author: "Server", text: "The other player just disconnected !"};
 			socket.in(player.room).emit('chatMessage', content);	
 			removePlayer(player);
-		//}
+		}
 	});
 	socket.on('emittedMessage', function(content) {
 		console.log(content)
@@ -78,7 +80,7 @@ io.on('connection', function (socket) {
 					console.log(result);
 					result[0].board[settings.column][result[0].board[settings.column].length] = result[0].players.indexOf(settings.player)+1;
 					db.collection("rooms").update(query, {$set: {board: result[0].board}});
-					socket.emit('newToken', {x : settings.column, color: result[0].colors[result[0].players.indexOf(settings.player)], y: result[0].board[settings.column].length-1});
+					socket.in(player.room).emit('newToken', {x : settings.column, color: result[0].colors[result[0].players.indexOf(settings.player)], y: result[0].board[settings.column].length-1});
 					db.close();
 				}
 			})
