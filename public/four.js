@@ -54,6 +54,7 @@ socket.on('disconnectedPlayer', function() {
 
 socket.on('newToken', function(content) {
 	//Add a function to drop a token here
+	switchTurn();
 	console.log(content);
 	document.getElementById("board").children[content.x].children[5-content.y].style.backgroundColor = content.color;
 })
@@ -91,12 +92,6 @@ socket.on('draw',function(){
 function sendMessage() {
 	var message = document.getElementById("usermsg").value;
 	if (message) {
-		var liElement = document.createElement("li");
-		var textNode = document.createTextNode(playerData.name + " says : " + message);
-		liElement.appendChild(textNode);
-		console.log(liElement);
-		document.getElementById("chatbox").appendChild(liElement);
-
 		socket.emit('emittedMessage', {author : playerData.name, text: message});
 		document.getElementById("usermsg").value = '';
 	} else {
@@ -119,6 +114,5 @@ function switchTurn(){
 function putToken(event) {
 	var token = parseInt(event.target.id);
 	// console.log(event.target.id);
-	switchTurn();
 	socket.emit('putToken', {column : token, player : playerData.name, room: playerData.room});
 }

@@ -5,7 +5,7 @@ var handlebars = require('express-handlebars');
 var MongoClient = require('mongodb').MongoClient;
 //var socketio = require('socket.io').sockets;
 var urlDb = "mongodb://localhost:27017/mydb";
-var gameEngine = require("./game.js");
+//var gameEngine = require("./game.js");
 //var io = require('socket.io').listen(server);
 
 
@@ -42,18 +42,18 @@ io.on('connection', function (socket) {
 			if (player.room != 1)
 				MongoClient.connect(urlDb, function(err, db) {
 					db.collection("rooms").find({numRoom: parseInt(player.room)}).toArray(function(err, result) {
-						if (player.room != 1) {
 							console.log(result[0]);
 							if (result[0].players_Number == 2) {
 								console.log("emitted");
-								socket.to(player.room).emit("new Player", player);
+								socket.to(player.room).emit("newPlayer", player);
 							}
-						}
+						
 						db.close();
 					});
 				});
 		});
 	});
+
 	socket.on('disconnect', function() {
 		if (player) {
 			console.log(player.name + " has just left the room " + player.room);
@@ -65,7 +65,7 @@ io.on('connection', function (socket) {
 	});
 	socket.on('emittedMessage', function(content) {
 		console.log(content)
-		socket.in(player.room).emit('chatMessage', content);
+		io.in(player.room).emit('chatMessage', content);	
 	})
 	socket.on('putToken', function(content) {
 		console.log(content);
@@ -99,7 +99,7 @@ function addToken(settings) {
 					console.log(result);
 					result[0].board[settings.column][result[0].board[settings.column].length] = result[0].players.indexOf(settings.player)+1;
 					db.collection("rooms").update(query, {$set: {board: result[0].board}});
-					socket.in(player.room).emit('newToken', {x : settings.column, color: result[0].colors[result[0].players.indexOf(settings.player)], y: result[0].board[settings.column].length-1});
+					io.in(player.room).emit('newToken', {x : settings.column, color: result[0].colors[result[0].players.indexOf(settings.player)], y: result[0].board[settings.column].length-1});
 					db.close();
 				}
 			})
@@ -138,8 +138,8 @@ function removePlayer(player) {
 				result[0].colors = [];
 				result[0].board = [[],[],[],[],[],[],[]];
 			} else {
-				result[0].players.splice(result.indexOf(player.name),1);
-				result[0].colors.splice(result.indexOf(player.name),1);
+				result[0].players.splice(result[0].players.indexOf(player.name),1);
+				result[0].colors.splice(result[0].players.indexOf(player.name),1);
 			}
 			result[0].players_Number--;
 			db.collection("rooms").update(query, {$set: {players: result[0].players, players_Number: result[0].players_Number, colors: result[0].colors, board: result[0].board}}, function() {
@@ -194,6 +194,7 @@ app.post("/four", function(req,res) {
 		    if (result[0].players_Number == 0) {
 		    	res.status(200).render('four.handlebars', settings);
 			} else if (result[0].players_Number == 1) {
+				console.log("here");
 				settings.otherPlayer = {name: result[0].players[0], color: result[0].colors[0]};
 		    	res.status(200).render('four.handlebars', settings);
 			} else {
