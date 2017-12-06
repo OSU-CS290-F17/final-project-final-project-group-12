@@ -2,6 +2,11 @@ var player = document.getElementById("player-one");
 var playerData = {name: player.dataset.name, room: player.dataset.room, color: player.dataset.color};
 var socket = io.connect('http://localhost:3000');
 socket.emit('player', playerData);
+
+
+
+// event listeners
+document.getElementById("forfeit-button").addEventListener("click", sendForfeit);
 document.getElementById("submitmsg").addEventListener("click", sendMessage);
 document.getElementById("draw-button").addEventListener("click", votetoDraw);
 document.getElementById("usermsg").addEventListener("keypress", pressEnter);
@@ -33,6 +38,16 @@ socket.on('fullColumn', function(content) {
 	column.removeEventListener("click", putToken);
 })
 
+
+socket.on('playerForfeit', function(content) {
+	window.alert(content + ' has forfeit the game. Returning you to the main page.');
+	window.location = "http://localhost:3000";
+})
+
+function sendForfeit() {
+	socket.emit("forfeit", playerData);
+	window.location = "http://localhost:3000";
+}
 socket.on('disconnectedPlayer', function() {
 	updateStatus(0);
 })
@@ -42,6 +57,7 @@ socket.on('newToken', function(content) {
 	console.log(content);
 	document.getElementById("board").children[content.x].children[5-content.y].style.backgroundColor = content.color;
 })
+
 
 function pressEnter(event) {
     if (event.which == 13 || event.keyCode == 13) {
