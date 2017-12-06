@@ -27,7 +27,7 @@ MongoClient.connect(urlDb, function(err, db) {
 		});
 	}
 		//console.log(i +" element updated");
-		
+
 	db.close();
 	});
  });
@@ -50,27 +50,32 @@ io.on('connection', function (socket) {
 							}
 						}
 						db.close();
-					});	
+					});
 				});
-		});	
+		});
 	});
 	socket.on('disconnect', function() {
 		if (player) {
 			console.log(player.name + " has just left the room " + player.room);
 			socket.to(player.room).emit("disconnectedPlayer");
 			var content = {author: "Server", text: "The other player just disconnected !"};
-			socket.in(player.room).emit('chatMessage', content);	
+			socket.in(player.room).emit('chatMessage', content);
 			removePlayer(player);
 		}
 	});
 	socket.on('emittedMessage', function(content) {
 		console.log(content)
-		socket.in(player.room).emit('chatMessage', content);	
+		socket.in(player.room).emit('chatMessage', content);
 	})
 	socket.on('putToken', function(content) {
 		console.log(content);
 		addToken(content);
 	})
+  socket.on('drawrequest', function(){
+    console.log("player wants a call a draw");
+    socket.in(player.room).emit('chatMessage', player.name + " votes to for a Draw!");
+    socket.broadcast.to(player.room).emit('draw')
+  })
 
 	function addToken(settings) {
 		var query = {numRoom: parseInt(settings.room)};
@@ -86,7 +91,7 @@ io.on('connection', function (socket) {
 			})
 		})
 	}
-});	
+});
 
 function addPlayer(player, next) {
 	MongoClient.connect(urlDb, function(err, db) {
@@ -101,7 +106,7 @@ function addPlayer(player, next) {
 					console.log(result[0]);
 					db.close();
 					next();
-				});	
+				});
 			});
 		});
 	});
@@ -149,7 +154,7 @@ app.get('/', function(req, res, next) {
 			db.close();
 			context = {scores : highscores};
     		res.status(200).render('index.handlebars', context);
-		});	
+		});
 	})
 });
 
