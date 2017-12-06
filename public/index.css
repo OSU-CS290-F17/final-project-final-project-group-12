@@ -85,7 +85,7 @@ body {
 	border-style: solid;
 	border-color: lightblue;
 	height: 30vh;
-
+	overflow: auto;
 }
 
 #Mainnamemsg{

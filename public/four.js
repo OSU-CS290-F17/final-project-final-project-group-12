@@ -4,8 +4,9 @@ var socket = io.connect('http://localhost:3000');
 socket.emit('player', playerData);
 document.getElementById("submitmsg").addEventListener("click", sendMessage);
 document.getElementById("usermsg").addEventListener("keypress", pressEnter);
+
 for (button of document.getElementsByClassName("chip-button")) {
-	button.addEventListener("click", putToken(event));
+	button.addEventListener("click", putToken);
 }
 
 socket.on('newPlayer', function(newPlayerData) {
@@ -84,6 +85,7 @@ function switchTurn(){
 
 function putToken(event) {
 	var token = parseInt(event.target.id);
+	// console.log(event.target.id);
 	switchTurn();
 	socket.emit('putToken', {column : token, player : playerData.name, room: playerData.room});
 }
