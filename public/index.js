@@ -54,11 +54,13 @@ function pressEnter(event) {
 function sendMessage() {
 	var message = document.getElementById("Mainusermsg").value;
 	if (message) {
-		var liElement = document.createElement("li");
-		var textNode = document.createTextNode(playerData.name + " says : " + message);
-		liElement.appendChild(textNode);
-		console.log(liElement);
-		document.getElementById("Mainchatbox").appendChild(liElement);
+
+		//commented out because chat is duplicated when server responds to the chat message
+		// var liElement = document.createElement("li");
+		// var textNode = document.createTextNode(playerData.name + " says : " + message);
+		// liElement.appendChild(textNode);
+		// console.log(liElement);
+		// document.getElementById("Mainchatbox").appendChild(liElement);
 
 		socket.emit('emittedMessage', {author : playerData.name, text: message});
 		document.getElementById("Mainusermsg").value = '';
