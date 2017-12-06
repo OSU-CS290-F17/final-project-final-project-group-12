@@ -42,9 +42,9 @@ function pressEnter(event) {
     		sendMessage();
     		return true;
 			}
-			else{
-				window.alert("Enter a name");
-			}
+			//else{
+				//window.alert("Enter a name");
+			//}
     }
     return false;
 };
