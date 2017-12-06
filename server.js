@@ -175,11 +175,12 @@ app.get('/', function(req, res, next) {
 	})
 });
 
-app.use(express.static('public'));
 
 app.get('*', function(req, res, next) {
-    res.status(404).send('404');
+    res.status(404).render('404');
 });
+
+app.use(express.static('public'));
 
 app.post("/four", function(req,res) {
 	var settings;
