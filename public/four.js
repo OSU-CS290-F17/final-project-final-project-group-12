@@ -2,7 +2,13 @@ var player = document.getElementById("player-one");
 var playerData = {name: player.dataset.name, room: player.dataset.room, color: player.dataset.color};
 var socket = io.connect('http://localhost:3000');
 socket.emit('player', playerData);
+
+
+
+// event listeners
+document.getElementById("forfeit-button").addEventListener("click", sendForfeit);
 document.getElementById("submitmsg").addEventListener("click", sendMessage);
+document.getElementById("draw-button").addEventListener("click", votetoDraw);
 document.getElementById("usermsg").addEventListener("keypress", pressEnter);
 
 for (button of document.getElementsByClassName("chip-button")) {
@@ -22,7 +28,7 @@ socket.on('chatMessage', function(content) {
 	var liElement = document.createElement("li");
 	var textNode = document.createTextNode(content.author + " says : " + content.text);
 	liElement.appendChild(textNode);
-	console.log(liElement);	
+	console.log(liElement);
 	document.getElementById("chatbox").appendChild(liElement);
 })
 
@@ -32,6 +38,16 @@ socket.on('fullColumn', function(content) {
 	column.removeEventListener("click", putToken);
 })
 
+
+socket.on('playerForfeit', function(content) {
+	window.alert(content + ' has forfeit the game. Returning you to the main page.');
+	window.location = "http://localhost:3000";
+})
+
+function sendForfeit() {
+	socket.emit("forfeit", playerData);
+	window.location = "http://localhost:3000";
+}
 socket.on('disconnectedPlayer', function() {
 	updateStatus(0);
 })
@@ -40,8 +56,9 @@ socket.on('newToken', function(content) {
 	//Add a function to drop a token here
 	switchTurn();
 	console.log(content);
-	document.getElementById("board").children[content.x].children[5-content.y].style.backgroundColor = content.color;	
+	document.getElementById("board").children[content.x].children[5-content.y].style.backgroundColor = content.color;
 })
+
 
 function pressEnter(event) {
     if (event.which == 13 || event.keyCode == 13) {
@@ -62,6 +79,16 @@ function updateStatus(state) {
 	}
 }
 
+function votetoDraw() {
+	socket.emit('drawrequest');
+}
+socket.on('draw',function(){
+	//window.confirm("Other player votes for a Draw!");
+	if(confirm("Other player votes for a Draw!")){
+		window.alert("hit confirm");
+	}
+})
+
 function sendMessage() {
 	var message = document.getElementById("usermsg").value;
 	if (message) {
@@ -74,7 +101,7 @@ function sendMessage() {
 
 function switchTurn(){
 	var turnMarker = document.getElementById("turn-marker");
-	turnMarker.classList.toggle("green-display");	
+	turnMarker.classList.toggle("green-display");
 }
 
 function putToken(event) {
