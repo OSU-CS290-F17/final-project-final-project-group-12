@@ -1,6 +1,5 @@
 var checkFor = require("./checkforwin.js");
-var register = require("./roomboard.js");
-var gethat = require("./public/four.js");
+var reg = require("./roomboard.js");
 
 /**
 Game
@@ -57,7 +56,7 @@ function addMove(board, player){
 
 	// The variable board is modifed so that the position on the board that the player made is added.
 	// We need to find a way to get columnNumber...
-	var columnNumber = gethat.getCol(player); // This function will ask for a player to make a move, and get the column that they want to play their move in.
-	board = register.registerAMove(board, columnNumber, player); // Registers the move and adds it to the board.
+	var columnNumber = 0;
+	board = reg.registerMove(player, columnNumber, board); // Registers the move and adds it to the board.
 	return board;
 }

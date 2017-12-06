@@ -81,7 +81,6 @@ function switchTurn(){
 	turnMarker.classList.toggle("green-display");	
 }
 
-
 function putToken(event) {
 	var token = parseInt(event.target.id);
 	switchTurn();

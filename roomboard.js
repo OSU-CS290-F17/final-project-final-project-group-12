@@ -26,7 +26,7 @@ colummNumber is the column of the play, as identified above.
 */
 
 
-function registerAMove(playerNumber, columnNumber, boardstate){
+function registerMove(playerNumber, columnNumber, boardstate){
 	for(var i = 5; i >= 0; i--){
 		if(boardstate[columnNumber][i] == 0)
 			boardstate[columnNumber][i] = playerNumber;
