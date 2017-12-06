@@ -2,7 +2,7 @@
 Game
 
 Properties
-    GameID
+    GameID 
     Gameboard
     Player1
     Player2

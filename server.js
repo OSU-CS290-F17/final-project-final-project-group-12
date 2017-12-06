@@ -52,13 +52,13 @@ io.on('connection', function (socket) {
 		});	
 	});
 	socket.on('disconnect', function() {
-		if (player) {
+		//if (player) {
 			console.log(player.name + " has just left the room " + player.room);
 			socket.to(player.room).emit("disconnectedPlayer");
 			var content = {author: "Server", text: "The other player just disconnected !"};
 			socket.in(player.room).emit('chatMessage', content);	
 			removePlayer(player);
-		}
+		//}
 	});
 	socket.on('emittedMessage', function(content) {
 		console.log(content)
