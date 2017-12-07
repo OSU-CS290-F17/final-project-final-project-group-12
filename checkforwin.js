@@ -25,21 +25,21 @@ Each of the mini-elemets should contain a value: 0 if unoccupied
   * * * * * * *
   * * * * * * *
 */
-/*
+
 
 var board = 
 	[
-		[1, 0, 0, 0, 0, 0],
-		[0, 1, 0, 0, 0, 0],
-		[0, 1, 0, 0, 0, 0],
-		[0, 1, 0, 0, 0, 0],
-		[0, 1, 0, 0, 0, 0],
-		[0, 1, 0, 0, 0, 0],
-		[0, 1, 0, 0, 0, 0]
+		[1, 2, 2, 2, 2],
+		[2, 1],
+		[2, 1],
+		[1, 2],
+		[2, 1],
+		[2, 1],
+		[1, 1]
 	]
 
-*/
-// checkForWin(board); <---- FOR TESTING PURPOSES ONLY
+
+checkForWin(board); 
 
 function checkForWin(boardstate){
 	var result = 0;
@@ -53,6 +53,7 @@ function checkForWin(boardstate){
 			}
 		}
 	}
+	console.log(result);
 	return result;
 }
 
@@ -73,10 +74,10 @@ function checkAtSpot(boardstate, loci, locj, occupy){
 		victor = checkHorizontal(boardstate, 1, occupy, loci, locj);
 		if(victor)
 			return victor;
-		occupy = checkVertical(boardstate, 1, occupy, loci, locj);
+		victor = checkVertical(boardstate, 1, occupy, loci, locj);
 		if(victor)
 			return victor;
-		occupy = checkDiagPos(boardstate, 1, occupy, loci, locj);
+		victor = checkDiagPos(boardstate, 1, occupy, loci, locj);
 		if(victor)
 			return victor;
 		victor = checkDiagNeg(boardstate, 1, occupy, loci, locj);
@@ -111,10 +112,12 @@ function checkVertical(boardstate, prev, playerOfInterest, loci, locj){
 		return 0;
 	if(boardstate[loci][locj] == playerOfInterest){
 		prev++;
-		if(prev == 4)
+		if(prev == 4){
+			console.log("Player ", playerOfInterest, " returned!");
 			return playerOfInterest;
+		}
 		else
-			return checkHorizontal(boardstate, prev, playerOfInterest, loci, locj);
+			return checkVertical(boardstate, prev, playerOfInterest, loci, locj);
 	}
 	else
 		return 0;
