@@ -11,7 +11,7 @@
 			<div class = "connect-status">Room: {{room}}</div>
 			<div class = "score">Score: 0</div>
 		</div>
-		<div id = "turn-marker">Your turn!</div>
+		<div id = "turn-marker"></div>
 		<button class = "button-option" id = "forfeit-button">Forfeit</button>
 		<button class = "button-option" id = "draw-button">Request a draw</button>
 	</div>
@@ -68,9 +68,8 @@
 <!-- The Modal -->	
 <div id="loading-modal" class="modal">
 	  <!-- Modal content -->
- 	 <div class="modal-content">
-    		<button class="close">&times;</button>
-    		<p>Waiting for another player...</p>
+ 	 <div id="modal-content">
+    		<p>Waiting for another player...</p><img src="./loading.gif"style="width:100px;height:auto;">
   	</div>
 </div>
 

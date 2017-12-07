@@ -4,8 +4,9 @@ var turn = 0;
 var playerData = {name: player.dataset.name, room: player.dataset.room, color: player.dataset.color};
 var socket = io.connect('http://localhost:3000');
 socket.emit('player', playerData);
-
-
+for(let i = 0; i <= 6; i++) {
+	disableColumn(i); 
+}
 
 // event listeners
 document.getElementById("forfeit-button").addEventListener("click", sendForfeit);
@@ -63,6 +64,7 @@ socket.on('newToken', function(content) {
 
 socket.on('startGame', function() {
 	turn = 1;
+	removeModal();
 	switchTurn();
 })
 
@@ -85,6 +87,7 @@ function updateStatus(state) {
 		case 1:
 			document.getElementById("player-two").children[1].innerText = "Connected";
 			document.getElementById("player-two").children[1].style.color = "green";
+			removeModal();
 			break;
 		case 2:
 			document.getElementById("player-two").children[1].innerText = "Forfeit";
@@ -113,6 +116,10 @@ socket.on('drawfullfill', function(){
 	window.location = "http://localhost:3000";
 });
 
+function removeModal() {
+	var modal = document.getElementById("loading-modal");
+	modal.style.display = "none";
+}
 function sendMessage() {
 	var message = document.getElementById("usermsg").value;
 	if (message) {
@@ -133,7 +140,7 @@ function switchTurn(){
 		}
 	} else {
 		for(let i = 0; i <= 6; i++) {
-			disableColumn(i); 
+			disableColumn(i); 	
 		}
 		turnMarker.style.backgroundColor="red";
 		turnMarker.innerText="Not your turn !";

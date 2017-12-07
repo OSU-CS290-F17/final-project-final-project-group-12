@@ -144,7 +144,7 @@ body{
 	border-radius: 50%;
 	padding-top: 1.5%;
 	padding-bottom: 2%;
-	background-color: lightgreen;
+	background-color: "grey";
 }
 
 .chip-button:hover {
@@ -203,7 +203,6 @@ body{
 
 
 .modal {
-    display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
     z-index: 1; /* Sit on top */
     left: 0;
@@ -217,12 +216,17 @@ body{
 
 
 
-.modal-content {
+#modal-content {
+	text-align: center;
     background-color: #fefefe;
     margin: 15% auto; /* 15% from the top and centered */
-    padding: 20px;
+    padding: 10px;
     border: 1px solid #888;
-    width: 80%; /* Could be more or less, depending on screen size */
+    width: 20%; /* Could be more or less, depending on screen size */
+}
+
+img {
+	margin: 4px 4px;
 }
 
 /* The Close Button */
