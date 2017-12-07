@@ -225,10 +225,6 @@ body{
     width: 20%; /* Could be more or less, depending on screen size */
 }
 
-img {
-	margin: 4px 4px;
-}
-
 /* The Close Button */
 .close {
     color: #aaa;

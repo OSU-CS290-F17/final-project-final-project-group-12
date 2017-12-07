@@ -4,6 +4,7 @@ var turn = 0;
 var playerData = {name: player.dataset.name, room: player.dataset.room, color: player.dataset.color};
 var socket = io.connect('http://localhost:3000');
 socket.emit('player', playerData);
+
 for(let i = 0; i <= 6; i++) {
 	disableColumn(i); 
 }
@@ -67,6 +68,17 @@ socket.on('startGame', function() {
 	removeModal();
 	switchTurn();
 })
+
+socket.on('Win', function(content) {
+	turn = 0;
+	switchTurn;
+	if (numPlayer != content.num)
+		document.getElementById("turn-marker").innerText = content.player + "won !";
+	else {
+		document.getElementById("turn-marker").innerText = "You won !";
+		document.getElementById("turn-marker").style.backgroundColor = "green";
+	}
+}
 
 function pressEnter(event) {
     if (event.which == 13 || event.keyCode == 13) {

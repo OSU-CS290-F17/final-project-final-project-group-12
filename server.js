@@ -3,6 +3,7 @@ var app = express();
 var server = require('http').Server(app);
 var handlebars = require('express-handlebars');
 var MongoClient = require('mongodb').MongoClient;
+var maxRooms = 500;
 //var socketio = require('socket.io').sockets;
 var urlDb = "mongodb://localhost:27017/mydb";
 var gameEngine = require("./game.js");
@@ -189,7 +190,7 @@ app.post("/four", function(req,res) {
 	MongoClient.connect(urlDb, function(err, db) {
 		if (err) throw err
 		var query = {numRoom: parseInt(req.body.room)};
-		if(query > 0 && query < maxRooms) {
+		if(query.numRoom > 0 && query.numRoom < maxRooms) {
 		console.log(query);
 		db.collection("rooms").find(query).toArray(function(err, result) {
 			if (err) throw err;
