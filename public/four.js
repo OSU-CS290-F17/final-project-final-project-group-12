@@ -42,9 +42,8 @@ socket.on('fullColumn', function(content) {
 
 
 socket.on('playerForfeit', function(content) {
-	window.alert(content + ' has forfeit the game. Game over.');
 	socket.disconnect();
-	updateStatus(0);
+	updateStatus(2);
 })
 
 function sendForfeit() {
@@ -73,14 +72,26 @@ function pressEnter(event) {
 };
 
 function updateStatus(state) {
-	if (state) {
-		document.getElementById("player-two").children[1].innerText = "Connected";
-		document.getElementById("player-two").children[1].style.color = "green";
-	} else {
-		document.getElementById("player-two").children[0].innerText = "[...]";
-		document.getElementById("player-two").children[1].innerText = "Not connected";
-		document.getElementById("player-two").children[1].style.color = "red";
+
+	switch(state) {
+		case 0:
+			document.getElementById("player-two").children[0].innerText = "[...]";
+			document.getElementById("player-two").children[1].innerText = "Not connected";
+			document.getElementById("player-two").children[1].style.color = "red";
+			break;
+		case 1:
+			document.getElementById("player-two").children[1].innerText = "Connected";
+			document.getElementById("player-two").children[1].style.color = "green";
+			break;
+		case 2:
+			document.getElementById("player-two").children[1].innerText = "Forfeit";
+			document.getElementById("player-two").children[1].style.color = "red";
+			document.getElementById("turn-marker").innerText = "Game Over";
+			break;
+		default:
+			break;
 	}
+	
 }
 
 function votetoDraw() {
