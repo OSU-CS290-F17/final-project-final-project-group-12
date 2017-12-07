@@ -72,12 +72,14 @@ socket.on('startGame', function() {
 socket.on('playerWin', function(content) {
 	turn = 0;
 	switchTurn();
-	if (numPlayer != content.num)
-		document.getElementById("turn-marker").innerText = content.player + " won !";
-	else {
+	if (numPlayer != content.num){
 		document.getElementById("turn-marker").innerText = "You won !";
 		document.getElementById("turn-marker").style.backgroundColor = "green";
+	} else {
+		document.getElementById("turn-marker").innerText = content.player + " won !";		
 	}
+	document.getElementById("forfeit-button").disabled = true;
+	document.getElementById("draw-button").disabled = true;
 });
 
 function pressEnter(event) {
@@ -104,7 +106,9 @@ function updateStatus(state) {
 		case 2:
 			document.getElementById("player-two").children[1].innerText = "Forfeit";
 			document.getElementById("player-two").children[1].style.color = "red";
-			document.getElementById("turn-marker").innerText = "Game Over";
+			document.getElementById("turn-marker").innerText = "Game Over";			
+			document.getElementById("forfeit-button").disabled = true;
+			document.getElementById("draw-button").disabled = true;
 			break;
 		default:
 			break;

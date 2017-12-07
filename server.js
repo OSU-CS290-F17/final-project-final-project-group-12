@@ -24,12 +24,7 @@ MongoClient.connect(urlDb, function(err, db) {
 		db.collection("rooms").insertOne({numRoom : i, players_Number: 0, players: [], colors: [], board: [[],[],[],[],[],[],[]], turn: 0}, function(err, obj) {
 		});
 	}
-	for (let i=1; i <= 10; i++ ) {
-		db.collection("highscores").insertOne({name: "John Doe", score : i*500}, function(err2, obj2) {
-			console.log(obj2.result.n + "document(s) added");
-		});
-	}
-		//console.log(i +" element updated");
+	//console.log(i +" element updated");
 
 	db.close();
 	});
@@ -99,7 +94,9 @@ io.on('connection', function (socket) {
 	function addToken(settings) {
 		var query = {numRoom: parseInt(settings.room)};
 		MongoClient.connect(urlDb, function(err,db) {
+			if (err) throw err;
 			db.collection("rooms").find(query).toArray(function(err, result) {
+				if (err) throw err;
 				if (result[0].board[settings.column].length < 6) {
 					console.log(result);
 					if (result[0].turn == 1)
@@ -111,19 +108,25 @@ io.on('connection', function (socket) {
 					io.in(player.room).emit('newToken', {x : settings.column, color: result[0].colors[result[0].players.indexOf(settings.player)], y: result[0].board[settings.column].length-1, turn :result[0].turn});
 					db.close();
 				}
-        if(checkWin.checkForWin(result[0].board) == 1){
-          console.log("player 1 wins");
-          io.in(player.room).emit('playerWin',{num : "1", player:result[0].players[0]});
-        }
-        if(checkWin.checkForWin(result[0].board) == 2){
-          console.log("player 2 win");
-          io.in(player.room).emit('playerWin',{num : "2", player:result[0].players[1]});
-        }
+		        if(checkWin.checkForWin(result[0].board) == 1){
+		          console.log("player 1 wins");
+		          io.in(player.room).emit('playerWin',{num : "1", player:result[0].players[0]});
+		          db.collection("highscores").update({name: result[0].players[0]}, {$inc: {score: 1}, $set: {name: result[0].players[0]}}, {upsert: true}, function() {
+		          	db.close();	
+		          });
+		        } else if(checkWin.checkForWin(result[0].board) == 2){
+		          console.log("player 2 win");
+		          io.in(player.room).emit('playerWin',{num : "2", player:result[0].players[1]});
+		          db.collection("highscores").update({name: result[0].players[0]}, {$inc: {score: 1}, $set: {name: result[0].players[0]}}, {upsert: true}, function() {
+		          	db.close();	
+		          });
+				} else 
+		        	db.close();
+		        
 			});
 		});
-	}
+	};
 });
-
 
 
 
@@ -198,6 +201,7 @@ app.use(express.static('public'));
 app.post("/four", function(req,res) {
 	var settings;
 	MongoClient.connect(urlDb, function(err, db) {
+		
 		if (err) throw err
 		var query = {numRoom: parseInt(req.body.room)};
 		if(query.numRoom > 0 && query.numRoom < maxRooms) {
