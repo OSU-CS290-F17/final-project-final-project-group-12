@@ -111,10 +111,10 @@ io.on('connection', function (socket) {
 					db.close();
 				}
         if(checkWin.checkforwin(result[0].board) == 1){
-          socket.in(player.room).emit('playerWin',1);
+          socket.in(player.room).emit('playerWin',{num : "1", player:result[0].players[0]});
         }
         if(checkWin.checkforwin(result[0].board) == 2){
-          socket.in(player.room).emit('playerWin',2);
+          socket.in(player.room).emit('playerWin',{num : "2", player:result[0].players[1]});
         }
 			});
 		});
