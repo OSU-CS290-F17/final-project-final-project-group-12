@@ -12,8 +12,9 @@ document.getElementById("draw-button").addEventListener("click", votetoDraw);
 document.getElementById("usermsg").addEventListener("keypress", pressEnter);
 
 var buttonarray = document.querySelectorAll("chip-button");
-for (var i = 0; i < 7; i++) {
-	buttonarray[i].addEventListener("click", putToken(i));
+for (var i = 0; i < buttonarray.length; i++) {
+	var num = i;
+	buttonarray[i].addEventListener("click", putToken(num));
 }
 
 socket.on('newPlayer', function(newPlayerData) {
