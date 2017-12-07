@@ -12,12 +12,7 @@ document.getElementById("forfeit-button").addEventListener("click", sendForfeit)
 document.getElementById("submitmsg").addEventListener("click", sendMessage);
 document.getElementById("draw-button").addEventListener("click", votetoDraw);
 document.getElementById("usermsg").addEventListener("keypress", pressEnter);
-var num
-var buttonarray = document.querySelectorAll("chip-button");
-for (var i = 0; i < buttonarray.length; i++) {
-	num = i;
-	buttonarray[i].addEventListener("click", putToken(num));
-}
+
 
 socket.on('newPlayer', function(newPlayerData) {
 	numPlayer = 2;
@@ -134,10 +129,10 @@ function switchTurn(){
 	}
 }
 
-function putToken(token) {
+function putToken(event) {
 	// console.log(event.target.id);
 	console.log("lol");
-	socket.emit('putToken', {column : token, player : playerData.name, room: playerData.room});
+	socket.emit('putToken', {column : parseInt(event.target.id), player : playerData.name, room: playerData.room});
 }
 
 function disableColumn(num) {
