@@ -167,7 +167,7 @@ app.use(bodyParser.json());
 app.engine('handlebars', handlebars({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
 
-app.post('/', function(req, res, next) {
+app.get('/', function(req, res, next) {
 	var highscores = [];
 	MongoClient.connect(urlDb, function(err, db) {
 		db.collection("highscores").find().toArray(function(err, result) {
