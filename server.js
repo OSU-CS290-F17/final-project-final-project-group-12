@@ -189,26 +189,31 @@ app.post("/four", function(req,res) {
 	MongoClient.connect(urlDb, function(err, db) {
 		if (err) throw err
 		var query = {numRoom: parseInt(req.body.room)};
+		if(query > 0 && query < maxRooms) {
 		console.log(query);
 		db.collection("rooms").find(query).toArray(function(err, result) {
 			if (err) throw err;
-			console.log(result[0]);
-			settings = {room: parseInt(req.body.room), player: req.body.player, color: req.body.color, style: "./four.css"};
-			console.log(settings);
-		    if (result[0].players_Number == 0) {
-		    	res.status(200).render('four.handlebars', settings);
-			} else if (result[0].players_Number == 1) {
-				console.log("here");
-				settings.otherPlayer = {name: result[0].players[0], color: result[0].colors[0]};
-		    	res.status(200).render('four.handlebars', settings);
-			} else {
-		    	var	error = {error: true, text: 'The room #' + req.body.room + ' is full !'};
-		    	res.status(200).render('index', error);
-		    }
-			db.close();
-		});
-
+				console.log(result[0]);
+				settings = {room: parseInt(req.body.room), player: req.body.player, color: req.body.color, style: "./four.css"};
+				console.log(settings);
+			    if (result[0].players_Number == 0) {
+			    	res.status(200).render('four.handlebars', settings);
+				} else if (result[0].players_Number == 1) {
+					console.log("here");
+					settings.otherPlayer = {name: result[0].players[0], color: result[0].colors[0]};
+			    	res.status(200).render('four.handlebars', settings);
+				} else {
+			    	var	error = {error: true, text: 'The room #' + req.body.room + ' is full !'};
+			    	res.status(200).render('index', error);
+			    }
+				db.close();
+			});
+		}
+		else {
+			res.status(404).render('404');
+		}
 	});
+	
 });
 
 app.use('*', function(req, res, next) {
