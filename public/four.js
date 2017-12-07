@@ -1,4 +1,6 @@
 var player = document.getElementById("player-one");
+var numPlayer = 1;
+var turn = 0;
 var playerData = {name: player.dataset.name, room: player.dataset.room, color: player.dataset.color};
 var socket = io.connect('http://localhost:3000');
 socket.emit('player', playerData);
@@ -10,14 +12,10 @@ document.getElementById("forfeit-button").addEventListener("click", sendForfeit)
 document.getElementById("submitmsg").addEventListener("click", sendMessage);
 document.getElementById("draw-button").addEventListener("click", votetoDraw);
 document.getElementById("usermsg").addEventListener("keypress", pressEnter);
-var num
-var buttonarray = document.querySelectorAll("chip-button");
-for (var i = 0; i < buttonarray.length; i++) {
-	num = i;
-	buttonarray[i].addEventListener("click", putToken(num));
-}
+
 
 socket.on('newPlayer', function(newPlayerData) {
+	numPlayer = 2;
 	console.log(newPlayerData);
 	document.getElementById("player-two").dataset[0] = newPlayerData.name;
 	document.getElementById("player-two").dataset[1] = newPlayerData.room;
@@ -35,9 +33,7 @@ socket.on('chatMessage', function(content) {
 })
 
 socket.on('fullColumn', function(content) {
-	var column = document.getElementById(content);
-	column.style.background.Color="grey";
-	column.removeEventListener("click", putToken);
+	disableColumn(content);
 })
 
 
@@ -53,15 +49,22 @@ function sendForfeit() {
 
 socket.on('disconnectedPlayer', function() {
 	updateStatus(0);
+	numPlayer = 1;
 })
+
 
 socket.on('newToken', function(content) {
 	//Add a function to drop a token here
+	turn = content.turn;
 	switchTurn();
 	console.log(content);
 	document.getElementById("board").children[content.x].children[5-content.y].style.backgroundColor = content.color;
 })
 
+socket.on('startGame', function() {
+	turn = 1;
+	switchTurn();
+})
 
 function pressEnter(event) {
     if (event.which == 13 || event.keyCode == 13) {
@@ -122,18 +125,37 @@ function sendMessage() {
 
 function switchTurn(){
 	var turnMarker = document.getElementById("turn-marker");
-	if(turnMarker.classList.contains("green-display")){
-		turnMarker.classList.remove("green-display");
-		turnMarker.classList.add("red-display");
-	}
-	else{
-		turnMarker.classList.add("green-display");
-		turnMarker.classList.remove("red-display");
+	if(turn == numPlayer) {
+		turnMarker.style.backgroundColor="green";
+		turnMarker.innerText="Your turn !";
+		for(let i = 0; i <= 6; i++) {
+			enableColumn(i);
+		}
+	} else {
+		for(let i = 0; i <= 6; i++) {
+			disableColumn(i); 
+		}
+		turnMarker.style.backgroundColor="red";
+		turnMarker.innerText="Not your turn !";
 	}
 }
 
-function putToken(token) {
+function putToken(event) {
 	// console.log(event.target.id);
 	console.log("lol");
-	socket.emit('putToken', {column : token, player : playerData.name, room: playerData.room});
+	socket.emit('putToken', {column : parseInt(event.target.id), player : playerData.name, room: playerData.room});
+}
+
+function disableColumn(num) {
+	var column = document.getElementById(String(num));
+	column.style.backgroundColor="grey";
+	column.disabled = true;
+	column.removeEventListener("click", putToken);
+}
+
+function enableColumn(num) {
+	var column = document.getElementById(String(num));
+	column.style.backgroundColor="lightgreen";
+	column.disabled = false;
+	column.addEventListener("click", putToken);
 }
