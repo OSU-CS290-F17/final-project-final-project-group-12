@@ -10,10 +10,10 @@ document.getElementById("forfeit-button").addEventListener("click", sendForfeit)
 document.getElementById("submitmsg").addEventListener("click", sendMessage);
 document.getElementById("draw-button").addEventListener("click", votetoDraw);
 document.getElementById("usermsg").addEventListener("keypress", pressEnter);
-
+var num
 var buttonarray = document.querySelectorAll("chip-button");
 for (var i = 0; i < buttonarray.length; i++) {
-	var num = i;
+	num = i;
 	buttonarray[i].addEventListener("click", putToken(num));
 }
 
