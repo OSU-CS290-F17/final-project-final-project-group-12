@@ -172,9 +172,8 @@ app.get('/', function(req, res, next) {
 
 app.use(express.static('public'));
 
-app.post("/four", function(req,res) {
+app.get("/four", function(req,res) {
 	var settings;
-
 	MongoClient.connect(urlDb, function(err, db) {
 		if (err) throw err
 		var query = {numRoom: parseInt(req.body.room)};
