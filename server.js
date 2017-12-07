@@ -171,11 +171,6 @@ app.get('/', function(req, res, next) {
 
 app.use(express.static('public'));
 
-app.get('*', function(req, res, next) {
-    res.status(404).render('404');
-});
-
-
 app.post("/four", function(req,res) {
 	var settings;
 
@@ -202,4 +197,8 @@ app.post("/four", function(req,res) {
 		});
 
 	});
+});
+
+app.use('*', function(req, res, next) {
+    res.status(404).render('404');
 });
