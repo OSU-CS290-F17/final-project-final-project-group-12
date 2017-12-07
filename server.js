@@ -113,11 +113,11 @@ io.on('connection', function (socket) {
 				}
         if(checkWin.checkForWin(result[0].board) == 1){
           console.log("player 1 wins");
-          socket.in(player.room).emit('playerWin',{num : "1", player:result[0].players[0]});
+          io.in(player.room).emit('playerWin',{num : "1", player:result[0].players[0]});
         }
         if(checkWin.checkForWin(result[0].board) == 2){
           console.log("player 2 win");
-          socket.in(player.room).emit('playerWin',{num : "2", player:result[0].players[1]});
+          io.in(player.room).emit('playerWin',{num : "2", player:result[0].players[1]});
         }
 			});
 		});

@@ -69,16 +69,16 @@ socket.on('startGame', function() {
 	switchTurn();
 })
 
-socket.on('Win', function(content) {
+socket.on('playerWin', function(content) {
 	turn = 0;
-	switchTurn;
+	switchTurn();
 	if (numPlayer != content.num)
-		document.getElementById("turn-marker").innerText = content.player + "won !";
+		document.getElementById("turn-marker").innerText = content.player + " won !";
 	else {
 		document.getElementById("turn-marker").innerText = "You won !";
 		document.getElementById("turn-marker").style.backgroundColor = "green";
 	}
-}
+});
 
 function pressEnter(event) {
     if (event.which == 13 || event.keyCode == 13) {
