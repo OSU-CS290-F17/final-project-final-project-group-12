@@ -5,12 +5,12 @@ var handlebars = require('express-handlebars');
 var MongoClient = require('mongodb').MongoClient;
 //var socketio = require('socket.io').sockets;
 var urlDb = "mongodb://localhost:27017/mydb";
-//var gameEngine = require("./game.js");
+var gameEngine = require("./game.js");
 //var io = require('socket.io').listen(server);
 
 
-var io = require('socket.io').listen(app.listen(3111, function() {
-    console.log('server listening on port 3111');
+var io = require('socket.io').listen(app.listen(3000, function() {
+    console.log('server listening on port 3000');
 }));
 
 MongoClient.connect(urlDb, function(err, db) {
@@ -169,11 +169,12 @@ app.get('/', function(req, res, next) {
 });
 
 
+app.use(express.static('public'));
+
 app.get('*', function(req, res, next) {
     res.status(404).render('404');
 });
 
-app.use(express.static('public'));
 
 app.post("/four", function(req,res) {
 	var settings;
