@@ -111,10 +111,10 @@ io.on('connection', function (socket) {
 					db.close();
 				}
         if(checkWin.checkforwin(result[0].board) == 1){
-          socket.in(player.room).emit('player1');
+          socket.in(player.room).emit('playerWin',1);
         }
         if(checkWin.checkforwin(result[0]) == 2){
-          socket.in(player.room).emit('player2');
+          socket.in(player.room).emit('playerWin',2);
         }
 			});
 		});
@@ -221,7 +221,7 @@ app.post("/four", function(req,res) {
 			res.status(404).render('404');
 		}
 	});
-	
+
 });
 
 app.use('*', function(req, res, next) {
