@@ -6,6 +6,7 @@ var MongoClient = require('mongodb').MongoClient;
 //var socketio = require('socket.io').sockets;
 var urlDb = "mongodb://localhost:27017/mydb";
 var gameEngine = require("./game.js");
+var checkWin = require("./checkforwin.js");
 //var io = require('socket.io').listen(server);
 var maxRooms = 500;
 
@@ -109,6 +110,12 @@ io.on('connection', function (socket) {
 					io.in(player.room).emit('newToken', {x : settings.column, color: result[0].colors[result[0].players.indexOf(settings.player)], y: result[0].board[settings.column].length-1, turn :result[0].turn});
 					db.close();
 				}
+        if(checkWin.checkforwin(result[0].board) == 1){
+          socket.in(player.room).emit('playerWin',1);
+        }
+        if(checkWin.checkforwin(result[0].board) == 2){
+          socket.in(player.room).emit('playerWin',2);
+        }
 			});
 		});
 	}
@@ -214,7 +221,7 @@ app.post("/four", function(req,res) {
 			res.status(404).render('404');
 		}
 	});
-	
+
 });
 
 app.use('*', function(req, res, next) {
