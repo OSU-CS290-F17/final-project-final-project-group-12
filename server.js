@@ -74,6 +74,7 @@ io.on('connection', function (socket) {
 
 	socket.on('forfeit', function(content) {
 		console.log(content.name, "has forfeit the game in room:", content.room);
+		socket.in(player.room).emit('chatMessage', {author: 'Server', text: player.name + ' has forfeit the game. The game is now over.'});
 		socket.to(content.room).broadcast.emit('playerForfeit', content.name);
 	})
   socket.on('drawrequest', function(){
