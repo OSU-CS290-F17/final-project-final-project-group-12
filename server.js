@@ -113,7 +113,7 @@ io.on('connection', function (socket) {
         if(checkWin.checkforwin(result[0].board) == 1){
           socket.in(player.room).emit('playerWin',1);
         }
-        if(checkWin.checkforwin(result[0]) == 2){
+        if(checkWin.checkforwin(result[0].board) == 2){
           socket.in(player.room).emit('playerWin',2);
         }
 			});
