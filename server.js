@@ -167,7 +167,7 @@ app.use(bodyParser.json());
 app.engine('handlebars', handlebars({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
 
-app.get('/', function(req, res, next) {
+app.post('/', function(req, res, next) {
 	var highscores = [];
 	MongoClient.connect(urlDb, function(err, db) {
 		db.collection("highscores").find().toArray(function(err, result) {
@@ -186,7 +186,6 @@ app.use(express.static('public'));
 
 app.post("/four", function(req,res) {
 	var settings;
-
 	MongoClient.connect(urlDb, function(err, db) {
 		if (err) throw err
 		var query = {numRoom: parseInt(req.body.room)};
