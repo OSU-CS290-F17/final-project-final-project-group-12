@@ -3,8 +3,9 @@
 <head>
 	<meta charset = "utf-8">
 	<title>Deep Games</title>
-	<link rel = "stylesheet" href = "index.css">
-    <link rel = "stylesheet" href = "four.css">
+	{{#if style}}
+	<link rel = "stylesheet" href = "{{style}}">
+    {{/if}}
 	<script src = "https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
 </head>
 <body>
