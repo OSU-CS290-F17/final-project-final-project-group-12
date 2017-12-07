@@ -12,6 +12,12 @@ document.getElementById("forfeit-button").addEventListener("click", sendForfeit)
 document.getElementById("submitmsg").addEventListener("click", sendMessage);
 document.getElementById("draw-button").addEventListener("click", votetoDraw);
 document.getElementById("usermsg").addEventListener("keypress", pressEnter);
+var num
+var buttonarray = document.querySelectorAll("chip-button");
+for (var i = 0; i < buttonarray.length; i++) {
+	num = i;
+	buttonarray[i].addEventListener("click", putToken(num));
+}
 
 socket.on('newPlayer', function(newPlayerData) {
 	numPlayer = 2;
@@ -37,8 +43,9 @@ socket.on('fullColumn', function(content) {
 
 
 socket.on('playerForfeit', function(content) {
-	window.alert(content + ' has forfeit the game. Returning you to the main page.');
-	window.location = "http://localhost:3000";
+	window.alert(content + ' has forfeit the game. Game over.');
+	socket.disconnect();
+	updateStatus(0);
 })
 
 function sendForfeit() {
@@ -127,8 +134,7 @@ function switchTurn(){
 	}
 }
 
-function putToken(event) {
-	var token = parseInt(event.target.id);
+function putToken(token) {
 	// console.log(event.target.id);
 	console.log("lol");
 	socket.emit('putToken', {column : token, player : playerData.name, room: playerData.room});

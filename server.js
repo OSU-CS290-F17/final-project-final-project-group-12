@@ -79,6 +79,7 @@ io.on('connection', function (socket) {
 
 	socket.on('forfeit', function(content) {
 		console.log(content.name, "has forfeit the game in room:", content.room);
+		socket.in(player.room).emit('chatMessage', {author: 'Server', text: player.name + ' has forfeit the game. The game is now over.'});
 		socket.to(content.room).broadcast.emit('playerForfeit', content.name);
 	})
 
@@ -180,11 +181,8 @@ app.get('/', function(req, res, next) {
 	})
 });
 
-app.use(express.static('public'));
 
-app.get('*', function(req, res, next) {
-    res.status(404).send('404');
-});
+app.use(express.static('public'));
 
 app.post("/four", function(req,res) {
 	var settings;
@@ -212,4 +210,8 @@ app.post("/four", function(req,res) {
 		});
 
 	});
+});
+
+app.use('*', function(req, res, next) {
+    res.status(404).render('404');
 });
